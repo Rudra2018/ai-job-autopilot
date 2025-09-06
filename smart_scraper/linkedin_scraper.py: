@@ -1,0 +1,7 @@
+def scrape_linkedin_jobs(keyword="cloud security", location="Germany"):
+    print(f"🔎 Scraping LinkedIn for '{keyword}' jobs in {location}...")
+    return [
+        {"title": "Cloud Security Engineer", "company": "Siemens", "location": "Berlin"},
+        {"title": "AppSec Lead", "company": "NVISO", "location": "Munich"}
+    ]
+

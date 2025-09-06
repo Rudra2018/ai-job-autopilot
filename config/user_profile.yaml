@@ -1,0 +1,30 @@
+name: Ankit Thakur
+email: hacking4bucks@gmail.com
+phone: "+91-8717934430"
+linkedin_url: "https://www.linkedin.com/in/ankit-t-8258661b2/"
+xing_url: "https://www.xing.com/profile/Ankit_Thakur092429/web_profiles"
+resume_path: "config/resume.pdf"
+
+job_targets:
+  - title: Security Engineer
+    location: Berlin, Germany
+  - title: Penetration Tester
+    location: Munich, Germany 
+
+smtp_credentials:
+  email: rbcag789@gmail.com
+  password: your_app_specific_password # use App Password if Gmail
+
+gemini_api_key: "AIzaSyAjl_0pRiegdq3KMcYUJ7-ai4pigKzvSVQ"
+ollama_model: "llama3"  # optional fallback model
+
+
+
+job_preferences:
+  titles:
+    - Cloud Security Engineer
+    - DevSecOps Specialist
+  locations:
+    - Berlin, Germany
+    - Munich, Germany
+    - Remote (EU)

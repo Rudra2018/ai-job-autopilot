@@ -1,0 +1,83 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Jupyter/IPython
+.ipynb_checkpoints/
+
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# PyTorch / Transformers
+*.pth
+*.pt
+*.safetensors
+*.onnx
+
+# Git LFS tracked models (if not using LFS yet)
+ml_models/jobbert_v3/model.safetensors
+
+# Resume Files / Screenshots / OCR Logs
+resumes/*.pdf
+resumes/*.docx
+resumes/*.txt
+resumes/*.jsonl
+screenshots/
+*.png
+*.jpg
+
+# Output / logs / temp
+*.log
+*.out
+*.tmp
+*.bak
+*.swp
+temp_resume.pdf
+resumes/feedback_log.jsonl
+smart_scraper/scraped_jobs.jsonl
+data/resume_match_results.json
+
+# Editor / OS files
+.DS_Store
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# dotenv files (containing secrets)
+.env
+.env.*
+!.env.template
+!.env.example
+
+# Playwright
+playwright-report/
+test-results/
+trace.zip
+
+# Node / Frontend (if UI uses Vite/React)
+node_modules/
+dist/
+build/
+
+# Docker
+*.tar
+*.img
+*.lock
+docker-compose.override.yml
+
+# Git LFS tracking
+.gitattributes
+
+# Ignore LFS install leftovers
+.git/lfs/
+
+# Cloud artifacts / compiled protobuf
+cloudbuild/
+gcp_pipeline/__pycache__/
+

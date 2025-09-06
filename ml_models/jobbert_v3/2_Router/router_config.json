@@ -1,0 +1,18 @@
+{
+    "types": {
+        "anchor_0_Dense": "sentence_transformers.models.Dense.Dense",
+        "positive_0_Dense": "sentence_transformers.models.Dense.Dense"
+    },
+    "structure": {
+        "anchor": [
+            "anchor_0_Dense"
+        ],
+        "positive": [
+            "positive_0_Dense"
+        ]
+    },
+    "parameters": {
+        "default_route": "anchor",
+        "allow_empty_key": true
+    }
+}
