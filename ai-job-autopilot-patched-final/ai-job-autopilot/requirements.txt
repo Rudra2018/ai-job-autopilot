@@ -1,6 +1,0 @@
-streamlit
-playwright
-openai
-vertexai
-tqdm
-python-dotenv
