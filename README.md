@@ -28,13 +28,17 @@ cd ai-job-autopilot
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
-2. Prepare Model
+```
+### 2. Prepare Model
+```bash
 from sentence_transformers import SentenceTransformer
 SentenceTransformer("TechWolf/JobBERT-v3").save("ml_models/jobbert_v3")
+```
 
-🔧 Environment Setup
+### 🔧 Environment Setup
+```bash
 .env.example (copy → .env)
+```
 # LLM Providers
 OPENAI_API_KEY=your_openai_key
 GOOGLE_API_KEY=your_google_key
@@ -132,6 +136,7 @@ parser/job_title_generator.py: Custom job title + skill logic
 ml_models/jobbert_ranker.py: Change vector similarity (cosine/softmax)
 
 📚 Folder Structure
+```
 ai-job-autopilot/
 ├── launch_autopilot.py
 ├── ml_models/            ← JobBERT, Gemini fallback models
@@ -145,7 +150,7 @@ ai-job-autopilot/
 ├── .env.template
 ├── requirements.txt
 └── README.md
-
+```
 🤝 Contributing
 
 Feel free to fork, extend, and contribute your own scraping integrations, LLMs, or resume optimizers. PRs welcome.
@@ -166,12 +171,7 @@ Open Source ✨
 
 MIT — free to use, modify, automate, and deploy.
 
-
 ---
-
-Would you like me to:
-- ✅ Auto-create this file in your repo?
-- ✅ Push README changes to GitHub with a commit?
 
 Let me know.
 
