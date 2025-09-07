@@ -8,12 +8,14 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Optional
 
 LOG_PATH = Path("dashboard/application_log.jsonl")
 
 
-def log_application(job: Dict, status: str, recruiter_msg: str | None = None) -> None:
+def log_application(
+    job: Dict, status: str, recruiter_msg: Optional[str] = None
+) -> None:
     """Append an application attempt to the log file.
 
     Parameters
@@ -36,7 +38,7 @@ def log_application(job: Dict, status: str, recruiter_msg: str | None = None) ->
         f.write(json.dumps(entry) + "\n")
 
 
-def read_application_log(limit: int | None = None) -> Iterable[Dict]:
+def read_application_log(limit: Optional[int] = None) -> Iterable[Dict]:
     """Return entries from the application log.
 
     Parameters
