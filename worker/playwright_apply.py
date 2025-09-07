@@ -1,5 +1,7 @@
 import os
 import time
+from typing import Optional
+
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 from .application_logger import log_application
@@ -15,7 +17,7 @@ XING_PASSWORD = os.getenv("XING_PASSWORD")
 RESUME_PATH = "resumes/resume.pdf"
 
 
-def simulate_job_apply(job, config=None, recruiter_msg: str | None = None):
+def simulate_job_apply(job, config=None, recruiter_msg: Optional[str] = None):
     """Light-weight stand in for the full Playwright automation.
 
     The real project drives a headless browser to apply for jobs.  For the
