@@ -1,27 +1,28 @@
 # 🤖 AI Job Autopilot
 
-A fully automated, AI-powered job search engine that scrapes jobs, matches them to your resume using [JobBERT-v3](https://huggingface.co/TechWolf/JobBERT-v3), generates recruiter messages, applies in real-time using Playwright automation (LinkedIn, Xing, Greenhouse, Lever), and continuously improves via Gemini feedback learning & resume retraining.
+**AI Job Autopilot** is a fully automated, AI-powered job search engine designed to streamline your job hunt. It intelligently scrapes jobs, matches them to your resume using advanced AI models ([JobBERT-v3](https://huggingface.co/TechWolf/JobBERT-v3), Gemini, GPT-4o, Claude 3), generates recruiter messages, and applies for jobs automatically—all while learning and improving from feedback.
 
 ---
 
 ## ✨ Features
 
-- 🧠 **AI Matching:** Resume ↔ Job description matching with `JobBERT-v3` + Gemini
-- 🕵️ **Smart Scraper:** Live scraping from LinkedIn, Xing, Indeed, Glassdoor, Monster, RemoteOK & AngelList/Wellfound (browser & OCR fallback)
-- 💌 **Recruiter Messaging:** Auto-generated messages tailored per role/location with tone presets
-- 🧪 **A/B Resume Testing:** Batch test resume variants against live job pool
-- 🖼️ **OCR Matching:** Parse job screenshots, match to resume (for stealth postings)
-- 🔁 **Feedback Learning:** Learns from interview outcomes, retrains resume
-- 🔐 **Real Form Automation:** Fills job application forms via Playwright (auto login, CAPTCHA solving)
-- 🤖 **LLM Router:** GPT-4o, Gemini 1.5 Pro & Claude 3 Sonnet with automatic fallback
-- 🌐 **Cloud Ready:** Deployable via GCP Cloud Build + GitHub Actions CI/CD
-- 📊 **Dashboard:** Live application stats & resume performance insights
+- **AI Matching:** Resume ↔ Job description matching using JobBERT-v3 & Gemini
+- **Smart Scraper:** Live scraping from LinkedIn, Xing, Indeed, Glassdoor, Monster, RemoteOK, AngelList/Wellfound (browser & OCR fallback)
+- **Recruiter Messaging:** Auto-generated, tailored recruiter messages with customizable tone
+- **A/B Resume Testing:** Batch test resume variants against live job pool
+- **OCR Matching:** Parse job screenshots and match to your resume for stealth postings
+- **Feedback Learning:** Learns from interview outcomes, retrains resume automatically
+- **Real Form Automation:** Fills out job application forms via Playwright (auto login, CAPTCHA solving)
+- **LLM Router:** Seamless fallback across GPT-4o, Gemini 1.5 Pro, Claude 3 Sonnet
+- **Cloud Ready:** Deploy with GCP Cloud Build & GitHub Actions CI/CD
+- **Dashboard:** Live application stats & resume performance insights
 
 ---
 
 ## 🚀 Quickstart
 
-### 1. Clone and Set Up
+### 1. Clone and Set Up Environment
+
 ```bash
 git clone https://github.com/Rudra2018/ai-job-autopilot.git
 cd ai-job-autopilot
@@ -29,16 +30,25 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
-### 2. Prepare Model
-```bash
+
+### 2. Download and Prepare AI Models
+
+```python
 from sentence_transformers import SentenceTransformer
 SentenceTransformer("TechWolf/JobBERT-v3").save("ml_models/jobbert_v3")
 ```
 
-### 🔧 Environment Setup
+### 3. Configure Environment Variables
+
+Copy the example environment file and fill in your credentials:
+
 ```bash
-.env.example (copy → .env)
+cp .env.example .env
 ```
+
+Edit `.env` and set the following:
+
+```ini
 # LLM Providers
 OPENAI_API_KEY=your_openai_key
 GOOGLE_API_KEY=your_google_key
@@ -54,127 +64,156 @@ LINKEDIN_PASSWORD=your-password
 
 # Playwright Setup
 PLAYWRIGHT_HEADLESS=true
+```
 
-🤖 Run Autopilot
-Full Auto-Apply Flow:
+---
+
+## 🤖 Running Autopilot
+
+**Full Auto-Apply Flow:**
+
+```bash
 python launch_autopilot.py
+```
 
+**What happens:**
 
-What it does:
+1. Loads your resume
+2. Scrapes live jobs from multiple platforms
+3. Matches jobs using JobBERT-v3
+4. Applies to top N matches
+5. Generates recruiter messages
+6. Sends connection requests
+7. Learns from outcomes and improves over time
 
-Loads your resume
+---
 
-Scrapes live jobs from LinkedIn, Xing, Indeed, Glassdoor, Monster, RemoteOK and AngelList
+## 🧪 Batch Resume Testing
 
-Embeds & matches with JobBERT-v3
+Compare multiple resume variants:
 
-Applies to top N matches
-
-Generates recruiter messages
-
-Sends connection requests
-
-Learns from past failures
-
-🧪 Batch Resume Testing
-
-Compare multiple resume variants using:
-
+```bash
 python tests/batch_resume_runner.py
+```
 
-🖼️ OCR Screenshot Matching
+---
 
-Drop job screenshots into /screenshots:
+## 🖼️ OCR Screenshot Matching
 
-python extensions/ocr_job_parser.py  # Extracts + Matches
+Extract jobs from screenshots (for stealth postings):
 
-📤 Feedback Loop (Resume Learning)
+1. Place screenshots in `/screenshots`
+2. Run:
+   ```bash
+   python extensions/ocr_job_parser.py
+   ```
 
-Every rejection, no callback, or success gets logged. Run:
+---
 
+## 📤 Feedback Loop (Resume Learning)
+
+Automatically retrain your resume based on feedback:
+
+```bash
 python extensions/resume_retrain.py
+```
 
+Each rejection, missed callback, or success is logged and used to improve matching and message generation.
 
-It improves future resume matching and message generation.
+---
 
-🌐 Web Dashboard
+## 🌐 Web Dashboard
 
-Launch React/Vite-based analytics dashboard:
+Launch the React/Vite-based analytics dashboard:
 
+```bash
 cd ui
 npm install
 npm run dev
-
-☁️ Cloud Deployment
-GCP Cloud Build + GitHub Actions
-
-/cloudbuild/cloudbuild.yaml
-
-.github/workflows/pages.yml
-
-To deploy:
-
-gcloud builds submit --config cloudbuild/cloudbuild.yaml
-
-🔐 Supported Job Platforms
-```bash
-Platform	Scraping	Form Fill	Notes
-LinkedIn	✅	✅	Playwright + CAPTCHA
-Xing	✅	✅	Session auto-login
-Indeed	✅	❌	Listing scrape
-Glassdoor	✅	❌	Listing scrape
-Monster	✅	❌	Listing scrape
-RemoteOK	✅	❌	Remote roles only
-AngelList	✅	❌	Startup jobs (Wellfound)
-Greenhouse	✅	✅	Autofill JSON forms
-Lever	✅	✅	Multi-step support
 ```
 
-💡 Customization
+Monitor application stats and resume performance.
 
-extensions/recruiter_playbook.py: Customize recruiter templates
+---
 
-parser/job_title_generator.py: Custom job title + skill logic
+## ☁️ Cloud Deployment
 
-ml_models/jobbert_ranker.py: Change vector similarity (cosine/softmax)
+Supports GCP Cloud Build and GitHub Actions for CI/CD.
 
-📚 Folder Structure
+- **Cloud Build:** `/cloudbuild/cloudbuild.yaml`
+- **GitHub Actions:** `.github/workflows/pages.yml`
+
+Deploy with:
+
+```bash
+gcloud builds submit --config cloudbuild/cloudbuild.yaml
+```
+
+---
+
+## 🔐 Supported Job Platforms
+
+| Platform   | Scraping | Form Fill | Notes                      |
+|------------|:--------:|:---------:|----------------------------|
+| LinkedIn   |   ✅     |    ✅     | Playwright + CAPTCHA       |
+| Xing       |   ✅     |    ✅     | Session auto-login         |
+| Indeed     |   ✅     |    ❌     | Listing scrape             |
+| Glassdoor  |   ✅     |    ❌     | Listing scrape             |
+| Monster    |   ✅     |    ❌     | Listing scrape             |
+| RemoteOK   |   ✅     |    ❌     | Remote roles only          |
+| AngelList  |   ✅     |    ❌     | Startup jobs (Wellfound)   |
+| Greenhouse |   ✅     |    ✅     | Autofill JSON forms        |
+| Lever      |   ✅     |    ✅     | Multi-step support         |
+
+---
+
+## 💡 Customization
+
+- `extensions/recruiter_playbook.py`: Customize recruiter message templates
+- `parser/job_title_generator.py`: Custom job title and skill logic
+- `ml_models/jobbert_ranker.py`: Change vector similarity (cosine/softmax)
+
+---
+
+## 📚 Folder Structure
+
 ```
 ai-job-autopilot/
 ├── launch_autopilot.py
-├── ml_models/            ← JobBERT, Gemini fallback models
-├── smart_scraper/        ← Multi-platform job scraping
-├── extensions/           ← Resume parser, feedback loop, OCR
-├── worker/               ← Auto-connect, email, form fill
-├── ui/                   ← React dashboard
-├── tests/                ← Resume A/B testing
-├── resumes/              ← Store resume variants + logs
-├── gcp_pipeline/         ← Cloud build + deploy tools
+├── ml_models/            # JobBERT, Gemini fallback models
+├── smart_scraper/        # Multi-platform job scraping
+├── extensions/           # Resume parser, feedback loop, OCR
+├── worker/               # Auto-connect, email, form fill
+├── ui/                   # React dashboard
+├── tests/                # Resume A/B testing
+├── resumes/              # Resume variants & logs
+├── gcp_pipeline/         # Cloud build & deploy tools
 ├── .env.template
 ├── requirements.txt
 └── README.md
 ```
-🤝 Contributing
 
-Feel free to fork, extend, and contribute your own scraping integrations, LLMs, or resume optimizers. PRs welcome.
+---
 
-🧠 Credits
+## 🤝 Contributing
 
-TechWolf/JobBERT-v3
+Contributions welcome! Feel free to fork, extend, and add your own scraping integrations, LLMs, or resume optimizers. PRs are encouraged.
 
-Google Vertex AI / Gemini Pro
+---
 
-HuggingFace Transformers
+## 🧠 Credits
 
-Playwright Automation
+- [TechWolf/JobBERT-v3](https://huggingface.co/TechWolf/JobBERT-v3)
+- Google Vertex AI / Gemini Pro
+- HuggingFace Transformers
+- Playwright Automation
 
-Open Source ✨
+---
 
-📜 License
+## 📜 License
 
 MIT — free to use, modify, automate, and deploy.
 
 ---
 
-Let me know.
-
+Got questions, ideas, or feedback? Open an issue or reach out!
