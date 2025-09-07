@@ -4,3 +4,6 @@ openai
 vertexai
 tqdm
 python-dotenv
+pdfplumber
+python-docx
+PyYAML
