@@ -117,6 +117,7 @@ To deploy:
 gcloud builds submit --config cloudbuild/cloudbuild.yaml
 
 🔐 Supported Job Platforms
+```bash
 Platform	Scraping	Form Fill	Notes
 LinkedIn	✅	✅	Playwright + CAPTCHA
 Xing	✅	✅	Session auto-login
@@ -127,6 +128,8 @@ RemoteOK	✅	❌	Remote roles only
 AngelList	✅	❌	Startup jobs (Wellfound)
 Greenhouse	✅	✅	Autofill JSON forms
 Lever	✅	✅	Multi-step support
+```
+
 💡 Customization
 
 extensions/recruiter_playbook.py: Customize recruiter templates
