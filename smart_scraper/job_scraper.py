@@ -1,23 +1,43 @@
+"""Aggregate job scrapers for multiple platforms.
+
+Each scraper returns a list of job dictionaries with a ``platform`` field.
+The live scrapers would use Playwright or official APIs; here we keep things
+simple and deterministic for tests."""
+
 import json
 from pathlib import Path
+from typing import List, Dict
 
-def scrape_jobs_live():
-    jobs = [
-        {
-            "title": "Cloud Security Engineer",
-            "company": "Google",
-            "description": "Work with GCP IAM, network security, and vulnerability management.",
-            "location": "Munich",
-            "url": "https://careers.google.com/jobs/cloud-sec",
-        },
-        {
-            "title": "SOC Analyst",
-            "company": "NVISO Germany",
-            "description": "Monitor alerts, triage incidents, and respond to threats using SIEM/SOAR.",
-            "location": "Remote (EU)",
-            "url": "https://nviso.eu/careers/soc-analyst",
-        },
-    ]
+from .linkedin_scraper import scrape_jobs_linkedin
+from .indeed_scraper import scrape_jobs_indeed
+from .glassdoor_scraper import scrape_jobs_glassdoor
+from .monster_scraper import scrape_jobs_monster
+from .remoteok_scraper import scrape_jobs_remoteok
+from .angelist_scraper import scrape_jobs_angelist
+
+SCRAPERS = [
+    scrape_jobs_linkedin,
+    scrape_jobs_indeed,
+    scrape_jobs_glassdoor,
+    scrape_jobs_monster,
+    scrape_jobs_remoteok,
+    scrape_jobs_angelist,
+]
+
+
+def scrape_jobs_live(keywords: List[str] | None = None,
+                      locations: List[str] | None = None) -> List[Dict]:
+    """Run all configured scrapers and persist results to JSONL."""
+    keywords = keywords or ["engineer"]
+    locations = locations or ["Remote"]
+
+    jobs: List[Dict] = []
+    for scraper in SCRAPERS:
+        try:
+            jobs.extend(scraper(keywords, locations))
+        except Exception as exc:  # pragma: no cover - defensive
+            print(f"[⚠️] {scraper.__name__} failed: {exc}")
+
     Path("smart_scraper").mkdir(exist_ok=True)
     with open("smart_scraper/scraped_jobs.jsonl", "w", encoding="utf-8") as f:
         for job in jobs:

@@ -1,4 +1,3 @@
-
 import streamlit as st
 from extensions.parser import parse_resume
 from worker.keyword_matcher import match_jobs_to_resume
@@ -41,7 +40,8 @@ if resume_text:
     st.markdown("---")
     st.markdown("### 🧑‍💼 Recruiter Message Generator")
     if st.button("Generate Outreach Message"):
-        msg = generate_message("Security Engineer", "Berlin")
+        demo_job = {"title": "Security Engineer", "location": "Berlin"}
+        msg = generate_message("Candidate", demo_job, tone="formal")
         st.code(msg, language="text")
 
 # Display application log
