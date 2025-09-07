@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Optional, Tuple
 
 import yaml
 
@@ -23,8 +23,10 @@ from ml_models.jobbert_ranker import jobbert_score
 from smart_scraper.job_scraper import scrape_jobs_live
 
 
-def _load_preferences(titles: Iterable[str] | None,
-                       preferences: Dict | None) -> tuple[List[str], List[str]]:
+def _load_preferences(
+    titles: Optional[Iterable[str]],
+    preferences: Optional[Dict],
+) -> Tuple[List[str], List[str]]:
     """Helper for loading job titles and preferred locations."""
     if titles is None or preferences is None:
         with open("config/user_profile.yaml", "r", encoding="utf-8") as f:
@@ -42,10 +44,12 @@ def _location_match(job_loc: str, locations: Iterable[str]) -> bool:
     return any(loc.lower() in job_loc or job_loc in loc.lower() for loc in locations)
 
 
-def match_jobs_to_resume(resume_text: str,
-                         titles: Iterable[str] | None = None,
-                         preferences: Dict | None = None,
-                         top_n: int = 5) -> List[Dict]:
+def match_jobs_to_resume(
+    resume_text: str,
+    titles: Optional[Iterable[str]] = None,
+    preferences: Optional[Dict] = None,
+    top_n: int = 5,
+) -> List[Dict]:
     titles, locations = _load_preferences(titles, preferences)
 
     resume_lower = resume_text.lower()

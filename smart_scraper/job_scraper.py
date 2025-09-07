@@ -6,7 +6,11 @@ simple and deterministic for tests."""
 
 import json
 from pathlib import Path
+
+from typing import Dict, List, Optional
+
 from typing import List, Dict
+
 
 from .linkedin_scraper import scrape_jobs_linkedin
 from .indeed_scraper import scrape_jobs_indeed
@@ -15,8 +19,12 @@ from .monster_scraper import scrape_jobs_monster
 from .remoteok_scraper import scrape_jobs_remoteok
 
 from .angellist_scraper import scrape_jobs_angellist
+=======
+
+from .angellist_scraper import scrape_jobs_angellist
 # =======
 from .angelist_scraper import scrape_jobs_angelist
+
 
 
 SCRAPERS = [
@@ -27,6 +35,16 @@ SCRAPERS = [
     scrape_jobs_remoteok,
 
     scrape_jobs_angellist,
+]
+
+
+def scrape_jobs_live(
+    keywords: Optional[List[str]] = None,
+    locations: Optional[List[str]] = None,
+) -> List[Dict]:
+=======
+
+    scrape_jobs_angellist,
 # =======
     scrape_jobs_angelist,
 
@@ -34,6 +52,7 @@ SCRAPERS = [
 
 def scrape_jobs_live(keywords: List[str] | None = None,
                       locations: List[str] | None = None) -> List[Dict]:
+
     """Run all configured scrapers and persist results to JSONL."""
     keywords = keywords or ["engineer"]
     locations = locations or ["Remote"]
