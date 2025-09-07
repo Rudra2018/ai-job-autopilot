@@ -1,26 +1,100 @@
+# 🤖 AI Job Autopilot - Git Ignore Configuration
+
+# Environment and Secrets
+.env
+.env.local
+.env.production
+.env.staging
+*.key
+*.pem
+
+# Personal Data
+config/resume.pdf
+config/user_profile.yaml
+config/*.pdf
+config/*.docx
+config/*.txt
+
+# Application Data
+dashboard/*.json
+dashboard/*.csv
+dashboard/application_log.jsonl
+data/
+screenshots/
+logs/
+applications/
+
+# AI Models (large files)
+ml_models/jobbert_v3/
+ml_models/*.bin
+ml_models/*.safetensors
+ml_models/*.pth
+ml_models/*.pt
+ml_models/*.onnx
+models/
+
 # Python
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
+*$py.class
 *.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Jupyter/IPython
-.ipynb_checkpoints/
-
-# Virtual Environment
+# Virtual Environments
+.env/
 .venv/
 env/
 venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
 
-# PyTorch / Transformers
-*.pth
-*.pt
-*.safetensors
-*.onnx
+# IDE and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
 
-# Git LFS tracked models (if not using LFS yet)
-ml_models/jobbert_v3/model.safetensors
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Browser and Automation
+playwright-report/
+test-results/
+trace.zip
+downloads/
+cookies/
+sessions/
 
 # Resume Files / Screenshots / OCR Logs
 resumes/*.pdf
@@ -30,41 +104,37 @@ resumes/*.jsonl
 screenshots/
 *.png
 *.jpg
-
-# Output / logs / temp
-*.log
-*.out
-*.tmp
-*.bak
-*.swp
 temp_resume.pdf
 resumes/feedback_log.jsonl
 smart_scraper/scraped_jobs.jsonl
 data/resume_match_results.json
-dashboard/application_log.jsonl
 
-# Editor / OS files
+# Operating System
 .DS_Store
-.vscode/
-.idea/
-*.sublime-workspace
-*.sublime-project
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# dotenv files (containing secrets)
-.env
-.env.*
-!.env.template
-!.env.example
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.out
+*.pid
+*.seed
+*.pid.lock
+*.bak
 
-# Playwright
-playwright-report/
-test-results/
-trace.zip
-
-# Node / Frontend (if UI uses Vite/React)
+# Package managers
 node_modules/
-dist/
-build/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
 
 # Docker
 *.tar
@@ -72,13 +142,53 @@ build/
 *.lock
 docker-compose.override.yml
 
+# Cloud and deployment
+.gcloudignore
+cloudbuild.yaml
+gcp_pipeline/__pycache__/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.backup
+*.old
+
+# Application specific
+error_screenshots/
+failed_applications/
+session_data/
+cache/
+.cache/
+
+# Sensitive application data  
+linkedin_session/
+google_session/
+email_templates/personal/
+recruiter_responses/
+
+# Performance and profiling
+*.prof
+*.profile
+
+# Testing
+test_output/
+test_reports/
+mock_data/
+
+# Documentation build
+docs/_build/
+site/
+
+# Local configuration overrides
+local_settings.py
+local_config.yaml
+
 # Git LFS tracking
 .gitattributes
 
 # Ignore LFS install leftovers
 .git/lfs/
-
-# Cloud artifacts / compiled protobuf
-cloudbuild/
-gcp_pipeline/__pycache__/
 

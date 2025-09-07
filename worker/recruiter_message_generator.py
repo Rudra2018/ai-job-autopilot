@@ -38,15 +38,23 @@ def generate_message(candidate_name: str,
     tone_instructions = TONE_PRESETS.get(tone, TONE_PRESETS["polite"])
 
     prompt = f"""
-You are a job-seeking professional writing a short outreach message to a recruiter or potential referrer.
-Generate a concise message asking for any open opportunities or referrals.
+You are Ankit Thakur, an experienced cybersecurity professional writing a personalized outreach message to a recruiter.
+Generate a professional message highlighting relevant experience and skills.
+
+Professional Background:
+- SDET II (Cyber Security) at Halodoc Technologies LLP
+- Senior Security Consultant at Prescient Security LLC 
+- Expertise: Penetration Testing, API Security, Cloud Security, GDPR Compliance
+- Certifications: AWS Security Specialty, CompTIA Security+, AWS SysOps Administrator
+- Achievements: Reduced security risks by 25%, improved data protection by 30%
+- Notable: Hall of Fame recognition from Google, Facebook, Yahoo, U.S. Department of Defense
 
 Sender: {candidate_name}
 Recipient: {recipient_name}
 Role: {job_title}
 Location: {location}
 {tone_instructions}
-Length: 3-4 sentences
+Length: Professional message with specific skills mentioned
 """.strip()
 
     response = _router.route(prompt, task="recruiter_message")
@@ -54,9 +62,12 @@ Length: 3-4 sentences
         # Static fallback when no provider is configured
         return (
             f"Hi {recipient_name},\n\n"
-            f"My name is {candidate_name} and I'm very interested in the {job_title} role in {location}. "
-            "I believe my experience aligns well and I'd love to connect or learn if any opportunities are available.\n\n"
-            f"Best regards,\n{candidate_name}"
+            f"My name is Ankit Thakur and I'm very interested in the {job_title} role in {location}. "
+            "With my extensive background in penetration testing, API security, and cloud security at companies like Halodoc Technologies and Prescient Security LLC, "
+            "I believe I would be a strong fit for your team. My expertise includes penetration testing, vulnerability assessment, GDPR compliance, and AWS security certifications. "
+            "I have successfully reduced security risks by 25% for clients and improved data protection by 30%.\n\n"
+            "I'd love to connect and discuss how my skills can contribute to your security initiatives.\n\n"
+            f"Best regards,\nAnkit Thakur\nat87.at17@gmail.com | +91 8717934430"
         )
     return response
 

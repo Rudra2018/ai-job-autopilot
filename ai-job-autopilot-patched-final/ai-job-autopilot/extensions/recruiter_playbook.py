@@ -1,4 +1,7 @@
-from dotenv import load_dotenvnload_dotenv()nimport osn
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
 TEMPLATES = {
     "cold_intro": lambda name, role, company: f"""
 Hi {name},

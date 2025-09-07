@@ -1,5 +1,8 @@
-from dotenv import load_dotenvnload_dotenv()nimport osn
+from dotenv import load_dotenv
 from vertexai.generative_models import GenerativeModel
+
+load_dotenv()
+
 
 def simulate_interview(role, company, resume_text):
     model = GenerativeModel("gemini-1.5-flash-latest")

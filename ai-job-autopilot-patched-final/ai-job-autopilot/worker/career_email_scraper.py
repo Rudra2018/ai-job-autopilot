@@ -1,4 +1,7 @@
-from dotenv import load_dotenvnload_dotenv()nimport osnimport re
+from dotenv import load_dotenv
+load_dotenv()
+import os
+import re
 
 emails = ["hr@company.com", "jobs@startup.io"]
 for email in emails:

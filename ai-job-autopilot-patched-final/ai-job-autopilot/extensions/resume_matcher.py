@@ -72,10 +72,8 @@ def main():
         top_jobs = sorted(user_profile.get("job_targets", []), key=lambda j: score_match(profile, j), reverse=True)
         if top_jobs and score_match(profile, top_jobs[0]) > 70:
             with open(".env", "a") as envfile:
-                envfile.write(f"TOP_JOB_TITLE={top_jobs[0]['title']}
-")
-                envfile.write(f"TOP_JOB_LOCATION={top_jobs[0]['location']}
-")
+                envfile.write(f"TOP_JOB_TITLE={top_jobs[0]['title']}\n")
+                envfile.write(f"TOP_JOB_LOCATION={top_jobs[0]['location']}\n")
 
 if __name__ == "__main__":
     main()

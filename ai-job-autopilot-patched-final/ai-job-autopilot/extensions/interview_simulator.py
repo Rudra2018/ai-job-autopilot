@@ -1,4 +1,7 @@
-from dotenv import load_dotenvnload_dotenv()nimport osn
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
 from vertexai.generative_models import GenerativeModel
 
 def simulate_interview(role, company, resume_text):

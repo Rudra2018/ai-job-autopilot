@@ -1,4 +1,7 @@
-from dotenv import load_dotenvnload_dotenv()nimport osn
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
 from extensions.llm_fallback_ollama import fallback_to_ollama
 
 def generate_recruiter_reply(context, job_title=""):

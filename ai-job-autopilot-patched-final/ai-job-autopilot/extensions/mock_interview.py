@@ -1,4 +1,7 @@
-from dotenv import load_dotenvnload_dotenv()nimport osn
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
 from extensions.llm_fallback_ollama import fallback_to_ollama
 from extensions.llm_vertex import call_vertex_flash_if_available
 

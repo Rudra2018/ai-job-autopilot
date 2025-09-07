@@ -1,6 +1,8 @@
-from dotenv import load_dotenvnload_dotenv()nimport osn
-import requests
+from dotenv import load_dotenv
 import os
+import requests
+
+load_dotenv()
 
 API_KEY = os.getenv("GCS_API_KEY")
 CX = os.getenv("GCS_CX_ID")

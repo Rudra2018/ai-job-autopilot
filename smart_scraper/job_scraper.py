@@ -25,10 +25,9 @@ SCRAPERS = [
     scrape_jobs_glassdoor,
     scrape_jobs_monster,
     scrape_jobs_remoteok,
-
     scrape_jobs_angellist,
-# =======
     scrape_jobs_angelist,
+]
 
 
 

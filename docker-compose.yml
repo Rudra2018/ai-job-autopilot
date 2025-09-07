@@ -1,6 +1,48 @@
-version: '3'
+# 🤖 AI Job Autopilot - Docker Compose Configuration
+version: '3.8'
+
 services:
-  app:
+  ai-job-autopilot:
     build: .
+    container_name: ai-job-autopilot
     ports:
       - "8501:8501"
+    environment:
+      - PLAYWRIGHT_HEADLESS=true
+      - LOG_LEVEL=INFO
+    env_file:
+      - .env
+    volumes:
+      - ./config:/app/config
+      - ./dashboard:/app/dashboard
+      - ./data:/app/data
+      - ./screenshots:/app/screenshots
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - autopilot-network
+
+  # Optional Redis for caching (if needed)
+  redis:
+    image: redis:7-alpine
+    container_name: ai-job-autopilot-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - autopilot-network
+
+volumes:
+  redis_data:
+
+networks:
+  autopilot-network:
+    driver: bridge
