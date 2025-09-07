@@ -61,7 +61,7 @@ AI Job Autopilot is an end‑to‑end job search agent. It scrapes listings, mat
 
 | Platform            | Scraping | Form Fill | Notes                        |
 | ------------------- | :------: | :-------: | ---------------------------- |
-| LinkedIn            |    ✅    |    ✅     | Playwright + CAPTCHA         |
+| LinkedIn            |    ✅    |    ✅     | Easy Apply (last 24h) + CAPTCHA |
 | Xing                |    ✅    |    ✅     | Session auto‑login           |
 | Indeed              |    ✅    |    ❌     | Listing scrape               |
 | Glassdoor           |    ✅    |    ❌     | Listing scrape               |
