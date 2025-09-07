@@ -41,6 +41,7 @@ temp_resume.pdf
 resumes/feedback_log.jsonl
 smart_scraper/scraped_jobs.jsonl
 data/resume_match_results.json
+dashboard/application_log.jsonl
 
 # Editor / OS files
 .DS_Store

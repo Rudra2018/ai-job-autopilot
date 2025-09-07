@@ -13,6 +13,7 @@ from worker.keyword_matcher import match_jobs_to_resume
 from worker.playwright_apply import auto_detect_and_apply
 from worker.recruiter_message_generator import generate_message
 from worker.linkedin_xing_auto_connect import send_connection_requests
+from worker.application_logger import log_application
 
 RESUME_PATH = "config/resume.pdf"
 
@@ -50,6 +51,8 @@ def main():
     for job in matches:
         msg = generate_message("Candidate", job, recipient_name="Hiring Team")
         applied = apply_with_retry(job)
+        status = "applied" if applied else "failed"
+        log_application(job, status, recruiter_msg=msg)
         print(f"""💌 Recruiter Message:{msg}""")
 
     send_connection_requests()
