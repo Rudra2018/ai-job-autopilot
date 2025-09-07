@@ -7,13 +7,13 @@ A fully automated, AI-powered job search engine that scrapes jobs, matches them 
 ## ✨ Features
 
 - 🧠 **AI Matching:** Resume ↔ Job description matching with `JobBERT-v3` + Gemini
-- 🕵️ **Smart Scraper:** Live scraping from LinkedIn, Xing (browser & OCR fallback)
-- 💌 **Recruiter Messaging:** Auto-generated messages tailored per role/location
+- 🕵️ **Smart Scraper:** Live scraping from LinkedIn, Xing, Indeed, Glassdoor, Monster, RemoteOK & AngelList/Wellfound (browser & OCR fallback)
+- 💌 **Recruiter Messaging:** Auto-generated messages tailored per role/location with tone presets
 - 🧪 **A/B Resume Testing:** Batch test resume variants against live job pool
 - 🖼️ **OCR Matching:** Parse job screenshots, match to resume (for stealth postings)
 - 🔁 **Feedback Learning:** Learns from interview outcomes, retrains resume
 - 🔐 **Real Form Automation:** Fills job application forms via Playwright (auto login, CAPTCHA solving)
-- 🧩 **Fallback AI:** Gemini + Ollama (local fallback)
+- 🤖 **LLM Router:** GPT-4o, Gemini 1.5 Pro & Claude 3 Sonnet with automatic fallback
 - 🌐 **Cloud Ready:** Deployable via GCP Cloud Build + GitHub Actions CI/CD
 - 📊 **Dashboard:** Live application stats & resume performance insights
 
@@ -34,9 +34,11 @@ from sentence_transformers import SentenceTransformer
 SentenceTransformer("TechWolf/JobBERT-v3").save("ml_models/jobbert_v3")
 
 🔧 Environment Setup
-.env.template (copy → .env)
-# Gemini Fallback
-GEMINI_API_KEY=your_google_api_key
+.env.example (copy → .env)
+# LLM Providers
+OPENAI_API_KEY=your_openai_key
+GOOGLE_API_KEY=your_google_key
+ANTHROPIC_API_KEY=your_anthropic_key
 
 # Gmail
 GMAIL_ADDRESS=you@example.com
@@ -58,7 +60,7 @@ What it does:
 
 Loads your resume
 
-Scrapes live jobs from LinkedIn/Xing
+Scrapes live jobs from LinkedIn, Xing, Indeed, Glassdoor, Monster, RemoteOK and AngelList
 
 Embeds & matches with JobBERT-v3
 
@@ -114,6 +116,11 @@ gcloud builds submit --config cloudbuild/cloudbuild.yaml
 Platform	Scraping	Form Fill	Notes
 LinkedIn	✅	✅	Playwright + CAPTCHA
 Xing	✅	✅	Session auto-login
+Indeed	✅	❌	Listing scrape
+Glassdoor	✅	❌	Listing scrape
+Monster	✅	❌	Listing scrape
+RemoteOK	✅	❌	Remote roles only
+AngelList	✅	❌	Startup jobs (Wellfound)
 Greenhouse	✅	✅	Autofill JSON forms
 Lever	✅	✅	Multi-step support
 💡 Customization
@@ -128,7 +135,7 @@ ml_models/jobbert_ranker.py: Change vector similarity (cosine/softmax)
 ai-job-autopilot/
 ├── launch_autopilot.py
 ├── ml_models/            ← JobBERT, Gemini fallback models
-├── smart_scraper/        ← LinkedIn/Xing job scraping
+├── smart_scraper/        ← Multi-platform job scraping
 ├── extensions/           ← Resume parser, feedback loop, OCR
 ├── worker/               ← Auto-connect, email, form fill
 ├── ui/                   ← React dashboard
