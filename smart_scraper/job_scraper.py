@@ -13,7 +13,11 @@ from .indeed_scraper import scrape_jobs_indeed
 from .glassdoor_scraper import scrape_jobs_glassdoor
 from .monster_scraper import scrape_jobs_monster
 from .remoteok_scraper import scrape_jobs_remoteok
+
 from .angellist_scraper import scrape_jobs_angellist
+# =======
+from .angelist_scraper import scrape_jobs_angelist
+
 
 SCRAPERS = [
     scrape_jobs_linkedin,
@@ -21,8 +25,11 @@ SCRAPERS = [
     scrape_jobs_glassdoor,
     scrape_jobs_monster,
     scrape_jobs_remoteok,
+
     scrape_jobs_angellist,
-]
+# =======
+    scrape_jobs_angelist,
+
 
 
 def scrape_jobs_live(keywords: List[str] | None = None,
