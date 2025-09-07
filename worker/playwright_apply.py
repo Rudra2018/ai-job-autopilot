@@ -2,6 +2,7 @@ import os
 import time
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from .application_logger import log_application
 
 load_dotenv()
 
@@ -26,6 +27,7 @@ def simulate_job_apply(job, config=None, recruiter_msg: str | None = None):
     print(f"[✅] Simulated applying to job: {job['title']} at {job['company']}")
     if recruiter_msg:
         print(f"    ↳ recruiter message: {recruiter_msg}")
+    log_application(job, "simulated", recruiter_msg=recruiter_msg)
 
 
 def real_linkedin_apply(job_url, resume_path=RESUME_PATH):

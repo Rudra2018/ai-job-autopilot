@@ -5,6 +5,7 @@ from worker.keyword_matcher import match_jobs_to_resume
 from worker.recruiter_message_generator import generate_message
 from extensions.mock_interview import ask_question
 from worker.playwright_apply import simulate_job_apply
+from worker.application_logger import read_application_log
 from pathlib import Path
 
 st.set_page_config(page_title="AI Job Autopilot", layout="wide")
@@ -42,3 +43,12 @@ if resume_text:
     if st.button("Generate Outreach Message"):
         msg = generate_message("Security Engineer", "Berlin")
         st.code(msg, language="text")
+
+# Display application log
+st.markdown("---")
+st.markdown("### 📊 Application Log")
+log_entries = read_application_log()
+if log_entries:
+    st.table(log_entries)
+else:
+    st.info("No applications recorded yet.")
