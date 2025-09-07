@@ -13,8 +13,19 @@ XING_PASSWORD = os.getenv("XING_PASSWORD")
 
 RESUME_PATH = "resumes/resume.pdf"
 
-def simulate_job_apply(job):
+
+def simulate_job_apply(job, config=None, recruiter_msg: str | None = None):
+    """Light-weight stand in for the full Playwright automation.
+
+    The real project drives a headless browser to apply for jobs.  For the
+    purposes of the tests and offline execution we simply log what would have
+    happened.  The ``config`` and ``recruiter_msg`` parameters are accepted for
+    API-compatibility with the rest of the codebase but are optional.
+    """
+
     print(f"[✅] Simulated applying to job: {job['title']} at {job['company']}")
+    if recruiter_msg:
+        print(f"    ↳ recruiter message: {recruiter_msg}")
 
 
 def real_linkedin_apply(job_url, resume_path=RESUME_PATH):
