@@ -1,159 +1,71 @@
-name: Ankit Thakur
-email: hacking4bucks@gmail.com
-phone: "+91-8717934430"
-linkedin_url: "https://www.linkedin.com/in/ankit-t-8258661b2/"
-xing_url: "https://www.xing.com/profile/Ankit_Thakur092429/web_profiles"
-resume_path: "config/resume.pdf"
+name: "Ankit Thakur"
+email: "at87.at17@gmail.com"
+phone: "+91 8717934430"
+location: "Remote / Europe"
 
-job_targets:
-  # EMEA Targets
-  - title: Penetration Tester
-    location: London, UK
-  - title: Security Engineer
-    location: Amsterdam, Netherlands
-  - title: Application Security Engineer
-    location: Dublin, Ireland
-  - title: Cloud Security Engineer
-    location: Zurich, Switzerland
-  - title: Cybersecurity Analyst
-    location: Paris, France
-  
-  # Germany Targets
-  - title: Security Engineer
-    location: Berlin, Germany
-  - title: Penetration Tester
-    location: Munich, Germany
-  - title: Application Security Engineer
-    location: Frankfurt, Germany
-  - title: Cloud Security Engineer
-    location: Hamburg, Germany
-  - title: DevSecOps Engineer
-    location: Cologne, Germany
-  
-  # USA Targets
-  - title: Security Engineer
-    location: New York, NY
-  - title: Penetration Tester
-    location: San Francisco, CA
-  - title: Application Security Engineer
-    location: Austin, TX
-  - title: Cloud Security Engineer
-    location: Seattle, WA
-  - title: Cybersecurity Specialist
-    location: Washington, DC
+skills:
+  - cybersecurity
+  - penetration testing
+  - vulnerability assessment
+  - cloud security
+  - aws
+  - network security
+  - incident response
+  - compliance
+  - risk assessment
+  - security architecture
+  - python
+  - javascript
+  - sql
+  - linux
+  - docker
+  - kubernetes
+  - terraform
 
-smtp_credentials:
-  email: hacking4bucks@gmail.com
-  password: rahpah-3Guvsu-dofpyb
+experience_level: "senior"
+total_experience_years: 5.5
 
-gemini_api_key: "AIzaSyAjl_0pRiegdq3KMcYUJ7-ai4pigKzvSVQ"
-ollama_model: "llama3"  # optional fallback model
+preferred_locations:
+  - "Remote"
+  - "Berlin"
+  - "Munich" 
+  - "Hamburg"
+  - "London"
+  - "Amsterdam"
+  - "Dublin"
 
-job_preferences:
-  titles:
-    # Core Security Roles
-    - Penetration Tester
-    - Security Engineer
-    - Application Security Engineer
-    - Cloud Security Engineer
-    - Cybersecurity Analyst
-    - Information Security Analyst
-    - Security Consultant
-    - Vulnerability Analyst
-    
-    # Specialized Roles
-    - DevSecOps Engineer
-    - Security Architect
-    - Incident Response Analyst
-    - Threat Intelligence Analyst
-    - Malware Analyst
-    - Forensic Analyst
-    - GRC Analyst
-    - Security Researcher
-    
-    # Senior/Lead Roles
-    - Senior Security Engineer
-    - Lead Penetration Tester
-    - Principal Security Consultant
-    - Senior Application Security Engineer
-    
-  locations:
-    # EMEA
-    - London, UK
-    - Manchester, UK
-    - Edinburgh, UK
-    - Amsterdam, Netherlands
-    - Dublin, Ireland
-    - Zurich, Switzerland
-    - Geneva, Switzerland
-    - Paris, France
-    - Lyon, France
-    - Stockholm, Sweden
-    - Copenhagen, Denmark
-    - Oslo, Norway
-    - Helsinki, Finland
-    - Vienna, Austria
-    - Brussels, Belgium
-    - Luxembourg
-    
-    # Germany
-    - Berlin, Germany
-    - Munich, Germany
-    - Frankfurt, Germany
-    - Hamburg, Germany
-    - Cologne, Germany
-    - Stuttgart, Germany
-    - Düsseldorf, Germany
-    - Dresden, Germany
-    - Leipzig, Germany
-    
-    # USA
-    - New York, NY
-    - San Francisco, CA
-    - Los Angeles, CA
-    - Seattle, WA
-    - Austin, TX
-    - Chicago, IL
-    - Boston, MA
-    - Washington, DC
-    - Atlanta, GA
-    - Dallas, TX
-    - Denver, CO
-    - Raleigh, NC
-    - Phoenix, AZ
-    - San Diego, CA
-    - Miami, FL
-    
-    # Remote Options
-    - Remote (Global)
-    - Remote (EU)
-    - Remote (USA)
-    - Remote (EMEA)
+job_types:
+  - "full-time"
+  - "contract"
 
-  keywords:
-    - penetration testing
-    - vulnerability assessment
-    - security testing
-    - API security
-    - cloud security
-    - application security
-    - DevSecOps
-    - SIEM
-    - threat hunting
-    - incident response
-    - risk assessment
-    - compliance
-    - GDPR
-    - ISO 27001
-    - NIST
-    - SOC
-    - endpoint security
-    - network security
-    - malware analysis
-    - forensics
-    - threat intelligence
-    
-  automation:
-    easy_apply: true
-    max_applications_per_day: 50
-    target_match_threshold: 3.0  # Minimum match score percentage
+salary_expectations:
+  min: 80000
+  max: 150000
+  currency: "EUR"
+
+work_authorization: "EU Citizen"
+visa_sponsorship_required: false
+
+industries:
+  - "Technology"
+  - "Financial Services"
+  - "Cybersecurity"
+  - "Cloud Computing"
+  - "Fintech"
+
+company_sizes:
+  - "Startup"
+  - "Medium"
+  - "Large"
+
+availability: "Two weeks notice"
+
+keywords:
+  - "security engineer"
+  - "cybersecurity engineer"
+  - "cloud security engineer"
+  - "application security engineer"
+  - "security architect"
+  - "penetration tester"
+  - "security analyst"
+  - "information security"
