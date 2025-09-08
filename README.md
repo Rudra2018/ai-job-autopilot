@@ -47,6 +47,10 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Optional extras for scraping and AI helpers
+pip install playwright openai anthropic pyyaml
+python -m playwright install
 ```
 
 ### 2. **API Configuration**
