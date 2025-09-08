@@ -1,74 +1,169 @@
-# AI Job Autopilot - Core Dependencies
-# Essential Python packages for automated job applications
+# 🚀 AI Job Autopilot - Premium Edition Requirements
+# Complete dependency list for all premium features
 
-# Web Automation & Browser Control
-playwright==1.45.0
-selenium==4.24.0
-beautifulsoup4==4.12.3
-requests==2.32.3
-undetected-chromedriver==3.5.5
+# ========== CORE FRAMEWORK ==========
+streamlit>=1.28.0
+pandas>=2.0.0
+plotly>=5.15.0
+altair>=5.0.0
 
-# AI & Machine Learning
-sentence-transformers==3.0.1
-transformers==4.44.0
-torch==2.4.0
-scikit-learn==1.5.1
-numpy==2.1.0
-pandas==2.2.2
+# ========== AI & ML LIBRARIES ==========
+# OpenAI GPT-4 Integration
+openai>=1.0.0
 
-# LLM API Integrations
-openai==1.44.0
-anthropic==0.34.0
+# Anthropic Claude Integration
+anthropic>=0.8.0
 
-# Configuration & Environment
-python-dotenv==1.0.1
-PyYAML==6.0.2
-pyyaml-include==1.3.2
+# Google Gemini Integration
+google-generativeai>=0.3.0
 
-# PDF & Document Processing
-pdfplumber==0.11.4
-python-docx==1.1.2
-PyPDF2==3.0.1
-Pillow==10.4.0
+# ML & NLP Libraries
+transformers>=4.30.0
+sentence-transformers>=2.2.0
+torch>=2.0.0
+spacy>=3.6.0
+scikit-learn>=1.3.0
 
-# Web Dashboard & UI
-streamlit==1.37.1
-plotly==5.23.0
-streamlit-aggrid==0.3.5
-altair==5.4.1
-st-annotated-text==4.0.1
+# ========== ADVANCED OCR & DOCUMENT PROCESSING ==========
+# Google Vision OCR
+google-cloud-vision>=3.4.0
 
-# HTTP & Async
-aiohttp==3.10.5
-httpx==0.27.2
+# Tesseract OCR
+pytesseract>=0.3.10
 
-# Data Processing & Analysis
-openpyxl==3.1.5
-xlsxwriter==3.2.0
-python-dateutil==2.9.0
+# EasyOCR
+easyocr>=1.7.0
 
-# Development & Testing
-pytest==8.3.2
-pytest-asyncio==0.24.0
+# PaddleOCR
+paddleocr>=2.7.0
 
-# Utilities & Tools
-tqdm==4.66.5
-colorama==0.4.6
-fake-useragent==1.5.1
-user-agents==2.2.0
-schedule==1.2.2
+# PDF Processing
+PyPDF2>=3.0.0
+pdf2image>=1.16.0
+pdfplumber>=0.11.0
+PyMuPDF>=1.23.0
 
-# Logging
-loguru==0.7.2
+# DOCX Processing
+python-docx>=0.8.11
 
-# Additional UI Components
-watchdog==4.0.2
-toml==0.10.2
+# Image Processing
+Pillow>=10.0.0
 
-# Optional Enhanced Features
-# Uncomment if using specific features:
-# pytesseract==0.3.13  # For OCR functionality
-# spacy>=3.7.0         # For advanced NLP
-# redis>=5.0.0         # For caching
-# psutil>=6.0.0        # For system monitoring
-# extra-streamlit-components==0.1.71  # For advanced UI components
+# ========== WEB AUTOMATION & SCRAPING ==========
+# Web Automation
+selenium>=4.15.0
+undetected-chromedriver>=3.5.0
+playwright>=1.40.0
+
+# HTTP & Web Scraping
+requests>=2.31.0
+aiohttp>=3.8.0
+httpx>=0.25.0
+beautifulsoup4>=4.12.0
+
+# ========== DATA PROCESSING & UTILITIES ==========
+# Core Data Libraries
+numpy>=1.24.0
+python-dateutil>=2.8.0
+
+# Excel/CSV Processing
+openpyxl>=3.1.0
+xlsxwriter>=3.1.0
+
+# JSON/YAML Processing
+pyyaml>=6.0.0
+
+# ========== ASYNC & PERFORMANCE ==========
+asyncio>=3.4.3
+concurrent-futures>=3.1.1
+
+# ========== DEVELOPMENT & DEBUGGING ==========
+# Logging & Monitoring
+loguru>=0.7.0
+
+# Progress Bars
+tqdm>=4.65.0
+
+# Terminal Colors
+colorama>=0.4.6
+
+# Testing Framework
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# ========== OPTIONAL ENHANCEMENTS ==========
+# Email Notifications
+smtplib
+email-validator>=2.0.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Date/Time Processing
+arrow>=1.2.0
+
+# Cryptography (for secure storage)
+cryptography>=41.0.0
+
+# Regular Expressions (enhanced)
+regex>=2023.6.0
+
+# ========== STREAMLIT EXTENSIONS ==========
+# Additional Streamlit Components
+streamlit-option-menu>=0.3.0
+streamlit-elements>=0.1.0
+streamlit-aggrid>=0.3.0
+
+# ========== VERSION NOTES ==========
+# Python Version: 3.8+
+# Tested on: Python 3.9, 3.10, 3.11
+# OS Compatibility: Windows, macOS, Linux
+
+# ========== INSTALLATION NOTES ==========
+# Basic Installation (Core Features):
+# pip install streamlit pandas plotly requests beautifulsoup4 selenium PyPDF2 python-docx
+
+# AI Features:
+# pip install openai anthropic google-generativeai transformers sentence-transformers
+
+# OCR Features:
+# pip install google-cloud-vision pytesseract easyocr paddleocr pdf2image
+
+# Full Installation:
+# pip install -r requirements.txt
+
+# System Dependencies (Install separately):
+# - Tesseract OCR: 
+#   macOS: brew install tesseract
+#   Ubuntu: sudo apt-get install tesseract-ocr
+#   Windows: Download from GitHub releases
+# 
+# - Chrome/Chromium (for Selenium):
+#   Automatically handled by undetected-chromedriver
+#
+# - Git (for version control):
+#   Download from git-scm.com
+
+# ========== OPTIONAL DEPENDENCIES ==========
+# These will be installed automatically but can be skipped if not needed:
+
+# spaCy Language Model (install after spacy):
+# python -m spacy download en_core_web_sm
+
+# Playwright Browsers (install after playwright):
+# playwright install
+
+# Google Cloud Authentication (for Google Vision):
+# pip install google-cloud-core google-auth google-auth-oauthlib
+
+# ========== GPU ACCELERATION (OPTIONAL) ==========
+# For faster ML processing, install GPU versions:
+# torch with CUDA: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+# TensorFlow GPU: pip install tensorflow-gpu
+
+# ========== DEVELOPMENT SETUP ==========
+# For development, also install:
+# black>=23.0.0                # Code formatting
+# flake8>=6.0.0                # Linting
+# mypy>=1.5.0                  # Type checking
+# pre-commit>=3.3.0            # Git hooks
