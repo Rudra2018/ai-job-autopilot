@@ -31,7 +31,7 @@
 ### 1. **Installation**
 ```bash
 # Clone repository
-git clone https://github.com/your-username/ai-job-autopilot.git
+git clone https://github.com/rudra2018/ai-job-autopilot.git
 cd ai-job-autopilot
 
 # Create virtual environment
