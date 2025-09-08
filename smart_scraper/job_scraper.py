@@ -14,9 +14,10 @@ from .glassdoor_scraper import scrape_jobs_glassdoor
 from .monster_scraper import scrape_jobs_monster
 from .remoteok_scraper import scrape_jobs_remoteok
 
+# AngelList was accidentally committed twice under slightly different spellings.
+# Keep the correctly spelled implementation and drop the duplicate to avoid
+# returning the same jobs twice.
 from .angellist_scraper import scrape_jobs_angellist
-# =======
-from .angelist_scraper import scrape_jobs_angelist
 
 
 SCRAPERS = [
@@ -26,7 +27,6 @@ SCRAPERS = [
     scrape_jobs_monster,
     scrape_jobs_remoteok,
     scrape_jobs_angellist,
-    scrape_jobs_angelist,
 ]
 
 
