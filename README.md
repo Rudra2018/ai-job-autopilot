@@ -61,14 +61,29 @@ GMAIL_ADDRESS=your_gmail@gmail.com
 GMAIL_APP_PASSWORD=your_app_specific_password
 ```
 
-### 3. **Launch**
+### 3. **Launch UI Dashboard**
 ```bash
-# Start dashboard
+# Main enhanced dashboard (recommended)
 streamlit run ui/enhanced_dashboard.py
 
-# Or run CLI version
+# Alternative dashboards
+streamlit run ui/ultimate_job_dashboard.py
+streamlit run ui/dashboard_ui.py
+
+# CLI version (no UI)
 python launch_autopilot.py
 ```
+
+**Access the dashboard at:** `http://localhost:8501`
+
+### 4. **UI Dashboard Features**
+- **Real-time Job Application Tracking**
+- **AI Question Answering Interface**  
+- **Resume Optimization Tools**
+- **Duplicate Detection Management**
+- **Configuration & Settings Panel**
+- **Analytics & Performance Metrics**
+- **Session Management Controls**
 
 ## 🏗️ **Project Architecture**
 
@@ -239,17 +254,37 @@ python -m pytest tests/ -v
 
 ## 🚨 **Troubleshooting**
 
+### **UI Dashboard Issues**
+```bash
+# Missing dependencies
+pip install streamlit plotly pandas altair
+
+# Port already in use
+streamlit run ui/enhanced_dashboard.py --server.port 8502
+
+# Clear Streamlit cache
+streamlit cache clear
+
+# Run with specific Python version
+python3 -m streamlit run ui/enhanced_dashboard.py
+```
+
 ### **Common Issues**
 - **Browser fails to start**: Run `playwright install` to install browser dependencies
 - **AI API errors**: Check your API keys in `.env` file
 - **LinkedIn login issues**: Verify credentials and check for 2FA
 - **Permission errors**: Ensure proper file permissions for config directory
+- **Import errors**: Run `pip install -r requirements.txt` to install all dependencies
 
 ### **Debug Mode**
 Enable debug logging by setting:
 ```bash
 export DEBUG=true
 python enhanced_linkedin_autopilot.py
+
+# For UI debugging
+export STREAMLIT_LOGGER_LEVEL=debug
+streamlit run ui/enhanced_dashboard.py
 ```
 
 ## 📜 **License**
