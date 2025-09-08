@@ -1,1 +1,0 @@
-# Resume ATS scoring logic
