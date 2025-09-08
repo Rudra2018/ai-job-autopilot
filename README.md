@@ -49,7 +49,7 @@
 ### **Step 1: Clone & Environment Setup**
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ai-job-autopilot.git
+git clone https://github.com/Rudra2018/ai-job-autopilot.git
 cd ai-job-autopilot
 
 # Create virtual environment
