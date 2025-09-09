@@ -1,20 +1,56 @@
 import os
 import time
-from typing import Optional
+from typing import Optional, Tuple, Dict
 
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+
+from smart_scraper.job_scraper import scrape_jobs_live
+
 from .application_logger import log_application
 
 load_dotenv()
 
-LINKEDIN_EMAIL = os.getenv("LINKEDIN_EMAIL")
-LINKEDIN_PASSWORD = os.getenv("LINKEDIN_PASSWORD")
-
-XING_EMAIL = os.getenv("XING_EMAIL")
-XING_PASSWORD = os.getenv("XING_PASSWORD")
-
 RESUME_PATH = "resumes/resume.pdf"
+
+# Store credentials in-memory so callers can supply them programmatically.
+CREDENTIALS: Dict[str, Tuple[str, str]] = {}
+
+
+def set_platform_credentials(platform: str, email: str, password: str) -> None:
+    """Register login credentials for a given platform."""
+    CREDENTIALS[platform.lower()] = (email, password)
+
+
+def _get_platform_credentials(platform: str) -> Tuple[str, str]:
+    """Fetch credentials from memory or environment variables."""
+    platform = platform.lower()
+    if platform in CREDENTIALS:
+        return CREDENTIALS[platform]
+    return (
+        os.getenv(f"{platform.upper()}_EMAIL", ""),
+        os.getenv(f"{platform.upper()}_PASSWORD", ""),
+    )
+
+
+def upload_and_parse_resume(resume_path: str = RESUME_PATH) -> Dict:
+    """Parse a resume file and return the extracted details."""
+    from parser.resume_parser import parse_resume as _parse_resume
+
+    data = _parse_resume(resume_path)
+    return data
+
+
+def smart_apply(
+    keywords: Optional[list[str]] = None,
+    locations: Optional[list[str]] = None,
+    resume_path: str = RESUME_PATH,
+) -> None:
+    """Use the AI smart scraper to find jobs and auto-apply to them."""
+    upload_and_parse_resume(resume_path)
+    jobs = scrape_jobs_live(keywords, locations)
+    for job in jobs:
+        auto_detect_and_apply(job, resume_path)
 
 
 def simulate_job_apply(job, config=None, recruiter_msg: Optional[str] = None):
@@ -39,9 +75,10 @@ def real_linkedin_apply(job_url, resume_path=RESUME_PATH):
 
         try:
             print("🔐 Logging into LinkedIn...")
+            email, password = _get_platform_credentials("linkedin")
             page.goto("https://www.linkedin.com/login")
-            page.fill("input[name='session_key']", LINKEDIN_EMAIL)
-            page.fill("input[name='session_password']", LINKEDIN_PASSWORD)
+            page.fill("input[name='session_key']", email)
+            page.fill("input[name='session_password']", password)
             page.click("button[type='submit']")
             page.wait_for_url("https://www.linkedin.com/feed*", timeout=10000)
 
@@ -103,9 +140,10 @@ def real_xing_apply(job_url, resume_path=RESUME_PATH):
 
         try:
             print("🔐 Logging into Xing...")
+            email, password = _get_platform_credentials("xing")
             page.goto("https://login.xing.com/")
-            page.fill("input[name='username']", XING_EMAIL)
-            page.fill("input[name='password']", XING_PASSWORD)
+            page.fill("input[name='username']", email)
+            page.fill("input[name='password']", password)
             page.click("button[type='submit']")
             page.wait_for_url("https://www.xing.com/feed", timeout=10000)
 
@@ -166,16 +204,16 @@ def real_lever_apply(job_url, resume_path=RESUME_PATH):
             browser.close()
 
 
-def auto_detect_and_apply(job):
+def auto_detect_and_apply(job, resume_path: str = RESUME_PATH):
     url = job.get("url", "")
     if "linkedin.com" in url:
-        real_linkedin_apply(url)
+        real_linkedin_apply(url, resume_path)
     elif "xing.com" in url:
-        real_xing_apply(url)
+        real_xing_apply(url, resume_path)
     elif "greenhouse.io" in url:
-        real_greenhouse_apply(url)
+        real_greenhouse_apply(url, resume_path)
     elif "lever.co" in url:
-        real_lever_apply(url)
+        real_lever_apply(url, resume_path)
     else:
         print(f"[⚠️] Unknown platform for job: {url}")
         simulate_job_apply(job)
