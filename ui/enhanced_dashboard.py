@@ -20,6 +20,8 @@ from typing import Dict, List, Optional
 import yaml
 import asyncio
 
+from theme import apply_theme
+
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -41,11 +43,13 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+apply_theme()
+
 # Custom CSS for modern design
 st.markdown("""
 <style>
     .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
         padding: 2rem;
         border-radius: 10px;
         margin-bottom: 2rem;
@@ -57,7 +61,7 @@ st.markdown("""
         padding: 1.5rem;
         border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-left: 4px solid #667eea;
+        border-left: 4px solid var(--primary-color);
     }
     
     .status-success {
@@ -93,7 +97,7 @@ st.markdown("""
     }
     
     .stProgress .st-bo {
-        background-color: #667eea;
+        background-color: var(--primary-color);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -213,7 +217,7 @@ if page == "🏠 Dashboard Overview":
             })
             
             fig = px.line(df, x='Date', y='Applications', title='📈 Application Activity (Last 7 Days)')
-            fig.update_traces(line_color='#667eea', line_width=3)
+            fig.update_traces(line_color='var(--primary-color)', line_width=3)
             fig.update_layout(showlegend=False)
             st.plotly_chart(fig, use_container_width=True)
         else:
@@ -748,7 +752,7 @@ elif page == "📊 Analytics & Reports":
             y=list(activity_data.values()),
             title="System Activity Summary"
         )
-        fig.update_traces(marker_color='#667eea')
+        fig.update_traces(marker_color='var(--primary-color)')
         st.plotly_chart(fig, use_container_width=True)
         
         # Detailed analytics
@@ -772,7 +776,7 @@ elif page == "📊 Analytics & Reports":
                     columns=['Company', 'Applications']
                 )
                 fig = px.bar(company_df, x='Company', y='Applications')
-                fig.update_traces(marker_color='#764ba2')
+                fig.update_traces(marker_color='var(--secondary-color)')
                 st.plotly_chart(fig, use_container_width=True)
         
         # Performance metrics

@@ -7,6 +7,7 @@ Advanced resume parsing using GPT-4, Gemini Pro, and Claude for maximum accuracy
 import json
 import logging
 import asyncio
+import os
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 import re
@@ -16,9 +17,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # API Keys - Configure these in your environment
-OPENAI_API_KEY = "sk-proj-your_openai_key_here"
-GEMINI_API_KEY = "your_gemini_key_here"  
-ANTHROPIC_API_KEY = "sk-ant-api03-your_anthropic_key_here"
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 
 # AI Service Availability
 OPENAI_AVAILABLE = False
@@ -27,17 +28,23 @@ ANTHROPIC_AVAILABLE = False
 
 try:
     import openai
-    openai.api_key = OPENAI_API_KEY
-    OPENAI_AVAILABLE = True
-    logger.info("✅ OpenAI GPT-4 available")
+    if OPENAI_API_KEY:
+        openai.api_key = OPENAI_API_KEY
+        OPENAI_AVAILABLE = True
+        logger.info("✅ OpenAI GPT-4 available")
+    else:
+        logger.warning("⚠️ OpenAI API key not provided")
 except ImportError:
     logger.warning("⚠️ OpenAI not available - install with: pip install openai")
 
 try:
     import google.generativeai as genai
-    genai.configure(api_key=GEMINI_API_KEY)
-    GEMINI_PRO_AVAILABLE = True
-    logger.info("✅ Gemini Pro available")
+    if GEMINI_API_KEY:
+        genai.configure(api_key=GEMINI_API_KEY)
+        GEMINI_PRO_AVAILABLE = True
+        logger.info("✅ Gemini Pro available")
+    else:
+        logger.warning("⚠️ Gemini API key not provided")
 except ImportError:
     logger.warning("⚠️ Gemini Pro not available")
 
@@ -52,9 +59,19 @@ try:
 except ImportError:
     logger.warning("⚠️ Anthropic not available - install with: pip install anthropic")
 
+def calculate_total_experience(experience: List[Dict]) -> float:
+    """Calculate total years of experience from experience entries."""
+    total_months = 0
+    for exp in experience:
+        months = exp.get("duration_months")
+        if isinstance(months, (int, float)):
+            total_months += months
+    return round(total_months / 12, 2) if total_months else 0.0
+
+
 class MultiAIResumeParser:
     """Advanced resume parser using multiple AI services for maximum accuracy"""
-    
+
     def __init__(self):
         self.gpt_client = None
         self.gemini_model = None
@@ -431,15 +448,20 @@ class MultiAIResumeParser:
                 # Projects - merge unique projects
                 if 'projects' in result:
                     self._merge_projects(merged.setdefault('projects', []), result['projects'])
-                
+
             except Exception as e:
                 logger.warning(f"Error merging {ai_name} results: {e}")
-        
+
+        # Ensure experience years are calculated if missing
+        career = merged.setdefault('career_analysis', {})
+        if not career.get('years_of_experience') and merged.get('experience'):
+            career['years_of_experience'] = calculate_total_experience(merged['experience'])
+
         # Add metadata
         merged['parsed_with'] = 'multi_ai_enhanced'
         merged['parsing_timestamp'] = datetime.now().isoformat()
         merged['ai_services_used'] = [name for name, _ in results]
-        
+
         logger.info("✅ Multi-AI merge completed successfully")
         return merged
 
@@ -498,6 +520,7 @@ class MultiAIResumeParser:
         for proj in new:
             if proj.get('name', '').lower() not in existing_projects:
                 base.append(proj)
+
 
 # Global instance
 multi_ai_parser = MultiAIResumeParser()
