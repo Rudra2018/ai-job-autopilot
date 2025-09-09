@@ -539,10 +539,12 @@ class UniversalJobScraper:
                 args=[
                     '--no-sandbox',
                     '--disable-blink-features=AutomationControlled',
-                    '--disable-extensions-except=/path/to/extension',
                     '--disable-extensions',
                     '--disable-plugins-discovery',
-                    '--disable-dev-shm-usage'
+                    '--disable-dev-shm-usage',
+                    '--disable-background-timer-throttling',
+                    '--disable-backgrounding-occluded-windows',
+                    '--disable-renderer-backgrounding'
                 ]
             )
             

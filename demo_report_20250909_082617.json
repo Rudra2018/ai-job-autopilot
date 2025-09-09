@@ -1,0 +1,32 @@
+{
+  "demo_completed_at": "2025-09-09T08:26:17.317069",
+  "session_stats": {
+    "started_at": "2025-09-09T08:25:26.822852",
+    "applications_attempted": 2,
+    "applications_successful": 1,
+    "applications_failed": 1,
+    "platforms_used": [
+      "LinkedIn",
+      "Indeed",
+      "Glassdoor",
+      "Google Career Pages",
+      "Microsoft Careers",
+      "Amazon Jobs",
+      "Apple Careers",
+      "Meta Careers",
+      "Tesla Jobs",
+      "RemoteOK",
+      "AngelList",
+      "Company Career Pages"
+    ]
+  },
+  "applications": [
+    {
+      "company": "CrowdStrike",
+      "title": "Senior Penetration Tester",
+      "location": "Remote Worldwide",
+      "status": "Applied Successfully",
+      "applied_at": "2025-09-09T08:25:45.010525"
+    }
+  ]
+}

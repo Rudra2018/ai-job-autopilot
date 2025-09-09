@@ -16,10 +16,10 @@ from datetime import datetime
 import yaml
 
 # Import our enhanced modules
-from ai_question_answerer import AIQuestionAnswerer
-from dynamic_resume_rewriter import DynamicResumeRewriter
-from smart_duplicate_detector import SmartDuplicateDetector
-from undetected_browser import UndetectedBrowser, BrowserConfig, HumanBehaviorConfig
+from src.ml.ai_question_answerer import AIQuestionAnswerer
+from src.ml.dynamic_resume_rewriter import DynamicResumeRewriter
+from src.utils.smart_duplicate_detector import SmartDuplicateDetector
+from src.automation.undetected_browser import UndetectedBrowser, BrowserConfig, HumanBehaviorConfig
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

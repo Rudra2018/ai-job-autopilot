@@ -45,6 +45,9 @@ class ProxyRotationSystem:
     """Advanced proxy rotation system with health monitoring"""
     
     def __init__(self, config_path: str = "config/proxy_config.yaml"):
+        # Setup logging first
+        self.logger = logging.getLogger(__name__)
+        
         self.config = self._load_config(config_path)
         self.proxies: List[ProxyConfig] = []
         self.current_proxy_index = 0
@@ -61,9 +64,6 @@ class ProxyRotationSystem:
         # Rate limiting
         self.request_history = []
         self.blocked_domains = set()
-        
-        # Setup logging
-        self.logger = logging.getLogger(__name__)
         
         # Initialize proxies
         self._initialize_proxies()

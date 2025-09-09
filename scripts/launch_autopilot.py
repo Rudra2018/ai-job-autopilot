@@ -6,7 +6,11 @@ the lightweight scoring utilities shipped with the repository.
 """
 
 import time
+import sys
 from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
 
 from extensions.parser import parse_resume
 from worker.keyword_matcher import match_jobs_to_resume

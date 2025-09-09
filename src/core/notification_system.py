@@ -10,9 +10,9 @@ import json
 import logging
 import requests
 import asyncio
-from email.mime.text import MimeText
-from email.mime.multipart import MimeMultipart
-from email.mime.base import MimeBase
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
 from email import encoders
 from typing import Dict, List, Optional, Any, Callable
 from datetime import datetime, timedelta
@@ -107,7 +107,7 @@ class EmailNotificationHandler(NotificationHandler):
         
         try:
             # Create message
-            msg = MimeMultipart()
+            msg = MIMEMultipart()
             msg['From'] = f"{self.sender_name} <{self.email}>"
             msg['Subject'] = f"🤖 {notification.title}"
             
@@ -120,7 +120,7 @@ class EmailNotificationHandler(NotificationHandler):
             html_body = self._render_template(template_name, notification)
             
             # Attach body
-            msg.attach(MimeText(html_body, 'html'))
+            msg.attach(MIMEText(html_body, 'html'))
             
             # Send email
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:

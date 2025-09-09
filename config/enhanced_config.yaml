@@ -1,0 +1,27 @@
+automation:
+  delay_between_applications:
+  - 30
+  - 90
+  enable_ai_answers: true
+  enable_duplicate_detection: true
+  enable_resume_optimization: true
+  max_applications_per_session: 20
+  max_questions_per_form: 10
+browser:
+  headless: false
+  profile_name: linkedin_autopilot
+job_preferences:
+  exclude_companies: []
+  experience_level: mid-senior
+  keywords:
+  - software engineer
+  - python developer
+  - full stack
+  locations:
+  - San Francisco
+  - New York
+  - Remote
+  salary_minimum: 80000
+linkedin:
+  email: hacking4bucks@gmail.com
+  password: gizmef-3zuwbE-rujtuq

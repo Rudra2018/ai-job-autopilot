@@ -669,12 +669,14 @@ def main():
     if result.failures:
         print(f"\\n❌ Failures:")
         for test, traceback in result.failures:
-            print(f"   - {test}: {traceback.split('\\n')[-2]}")
+            newline = '\\n'
+            print(f"   - {test}: {traceback.split(newline)[-2]}")
     
     if result.errors:
         print(f"\\n🚨 Errors:")
         for test, traceback in result.errors:
-            print(f"   - {test}: {traceback.split('\\n')[-2]}")
+            newline = '\\n'
+            print(f"   - {test}: {traceback.split(newline)[-2]}")
     
     # Run performance tests
     run_performance_tests()

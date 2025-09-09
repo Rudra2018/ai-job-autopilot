@@ -11,6 +11,9 @@ import asyncio
 from pathlib import Path
 from datetime import datetime
 
+# Add parent directory to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
 def print_banner():
     """Print system banner"""
     banner = """
@@ -159,7 +162,7 @@ def launch_cli_mode():
     print("⚡ Launching CLI Orchestrator...")
     
     try:
-        from job_application_orchestrator import JobApplicationOrchestrator
+        from src.ml.job_application_orchestrator import JobApplicationOrchestrator
         
         async def run_pipeline():
             orchestrator = JobApplicationOrchestrator()
@@ -227,7 +230,7 @@ def run_tests():
     print("🧪 Running system tests...")
     
     try:
-        from test_suite import run_all_tests
+        from tests.test_suite import run_all_tests
         results = run_all_tests()
         
         if results['success']:

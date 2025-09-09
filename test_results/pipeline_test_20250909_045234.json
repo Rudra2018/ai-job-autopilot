@@ -1,0 +1,24 @@
+{
+  "test_timestamp": "2025-09-09T04:52:34.540823",
+  "system_health": "100%",
+  "components_tested": 4,
+  "resume_file": "Ankit_Thakur_Resume.pdf",
+  "pipeline_performance": {
+    "confidence_score": 0.32999999999999996,
+    "quality_score": 0.13333333333333333,
+    "processing_time": 0.8220751285552979
+  },
+  "ai_services": {
+    "total_available": 3,
+    "services": [
+      "openai",
+      "anthropic",
+      "gemini"
+    ]
+  },
+  "contact_extraction": {
+    "email": "at87.at17@gmail.com",
+    "phone": "1 8717934430"
+  },
+  "linkedin_ready": true
+}

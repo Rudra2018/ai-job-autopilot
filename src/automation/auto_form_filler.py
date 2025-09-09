@@ -16,7 +16,7 @@ from dataclasses import dataclass
 import yaml
 from playwright.async_api import Page, Locator
 import openai
-from advanced_resume_parser import ParsedResume
+from src.ml.advanced_resume_parser import ParsedResume
 
 @dataclass
 class FormField:

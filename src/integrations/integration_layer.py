@@ -17,11 +17,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import contextmanager
 
 # Import all enhanced modules
-from ai_question_answerer import AIQuestionAnswerer, QuestionAnswer
-from dynamic_resume_rewriter import DynamicResumeRewriter, ResumeVersion
-from smart_duplicate_detector import SmartDuplicateDetector, JobApplication, DuplicateMatch
-from undetected_browser import UndetectedBrowser, BrowserConfig, HumanBehaviorConfig
-from config_manager import AdvancedConfigManager
+from src.ml.ai_question_answerer import AIQuestionAnswerer, QuestionAnswer
+from src.ml.dynamic_resume_rewriter import DynamicResumeRewriter, ResumeVersion
+from src.utils.smart_duplicate_detector import SmartDuplicateDetector, JobApplication, DuplicateMatch
+from src.automation.undetected_browser import UndetectedBrowser, BrowserConfig, HumanBehaviorConfig
+from src.core.config_manager import AdvancedConfigManager
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

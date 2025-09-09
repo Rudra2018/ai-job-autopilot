@@ -21,17 +21,17 @@ import pandas as pd
 from dataclasses import dataclass, asdict
 
 # Add parent directory for imports
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent.parent))
 
 # Import our modules
-from universal_job_scraper import UniversalJobScraper, JobListing
-from company_career_scraper import CompanyJobPipeline, CompanyInfo
-from advanced_resume_parser import ResumeParser, ParsedResume, ContactInfo, WorkExperience, Education
-from intelligent_job_matcher import AIJobMatcher, JobRequirement, MatchResult
-from auto_form_filler import IndustryStandardFormFiller, ApplicationData
-from job_application_orchestrator import JobApplicationOrchestrator
-from scraping_analytics_monitor import ScrapingAnalyticsMonitor, ScrapingMetrics, ApplicationMetrics
-from proxy_rotation_system import ProxyRotationSystem, ProxyConfig
+from src.scrapers.universal_job_scraper import UniversalJobScraper, JobListing
+from src.scrapers.company_career_scraper import CompanyJobPipeline, CompanyInfo
+from src.ml.advanced_resume_parser import ResumeParser, ParsedResume, ContactInfo, WorkExperience, Education
+from src.ml.intelligent_job_matcher import AIJobMatcher, JobRequirement, MatchResult
+from src.automation.auto_form_filler import IndustryStandardFormFiller, ApplicationData
+from src.ml.job_application_orchestrator import JobApplicationOrchestrator
+from src.analytics.scraping_analytics_monitor import ScrapingAnalyticsMonitor, ScrapingMetrics, ApplicationMetrics
+from src.core.proxy_rotation_system import ProxyRotationSystem, ProxyConfig
 
 class MockDataFactory:
     """Factory for creating realistic test data"""

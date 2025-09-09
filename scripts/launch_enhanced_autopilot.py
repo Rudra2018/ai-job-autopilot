@@ -9,6 +9,11 @@ import yaml
 from pathlib import Path
 from typing import List, Dict
 
+# Add parent directory to path for imports
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+
 # Import all the enhanced modules
 from smart_scraper.linkedin_scraper import scrape_jobs_linkedin, linkedin_easy_apply
 from ml_models.jobbert_runner import match_resume_to_jobs, filter_high_match_jobs
