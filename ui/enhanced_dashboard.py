@@ -117,11 +117,18 @@ def initialize_modules():
     }
     return modules
 
+# Global modules variable
+modules = None
 try:
     modules = initialize_modules()
 except Exception as e:
     st.error(f"Failed to initialize modules: {e}")
-    st.stop()
+    st.info("Some features may not be available. Please check your configuration.")
+    modules = {
+        'question_answerer': None,
+        'resume_rewriter': None,
+        'duplicate_detector': None
+    }
 
 # Header
 st.markdown("""
@@ -154,10 +161,10 @@ if page == "🏠 Dashboard Overview":
     # Real-time metrics
     col1, col2, col3, col4 = st.columns(4)
     
-    # Get statistics from all modules
-    qa_stats = modules['question_answerer'].get_answer_statistics()
-    resume_stats = modules['resume_rewriter'].get_optimization_statistics()
-    duplicate_stats = modules['duplicate_detector'].get_application_stats()
+    # Get statistics from all modules (with safety checks)
+    qa_stats = modules['question_answerer'].get_answer_statistics() if modules['question_answerer'] else {'total_questions': 0, 'success_rate': 0}
+    resume_stats = modules['resume_rewriter'].get_optimization_statistics() if modules['resume_rewriter'] else {'total_versions': 0, 'success_rate': 0}
+    duplicate_stats = modules['duplicate_detector'].get_application_stats() if modules['duplicate_detector'] else {'total_applications': 0, 'duplicates_found': 0}
     
     with col1:
         st.metric(
@@ -420,7 +427,11 @@ elif page == "❓ AI Question Answerer":
                 } if job_title_test else None
                 
                 try:
-                    qa_result = modules['question_answerer'].answer_question(question_test, job_context)
+                    if modules['question_answerer']:
+                        qa_result = modules['question_answerer'].answer_question(question_test, job_context)
+                    else:
+                        st.error("Question Answerer module not available")
+                        return
                     
                     st.success("✅ Answer Generated!")
                     

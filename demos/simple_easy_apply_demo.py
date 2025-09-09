@@ -15,6 +15,11 @@ async def demo_easy_apply():
     email = os.getenv('LINKEDIN_EMAIL')
     password = os.getenv('LINKEDIN_PASSWORD')
     
+    if not email or not password:
+        print("❌ LinkedIn credentials not found!")
+        print("Please set LINKEDIN_EMAIL and LINKEDIN_PASSWORD in .env file")
+        return
+    
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
         context = await browser.new_context()

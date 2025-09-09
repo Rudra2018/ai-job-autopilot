@@ -107,11 +107,12 @@ def show_enhanced_features():
     for feature in features:
         print(f"   {feature}")
     
-    print(f"\n📍 TARGET LOCATIONS ({sum(len(regions) for regions in [
+    locations_count = sum(len(regions) for regions in [
         ['London', 'Amsterdam', 'Dublin', 'Zurich', 'Paris', 'Stockholm'],  # EMEA
         ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne'],  # Germany  
         ['New York', 'San Francisco', 'Seattle', 'Austin', 'Chicago']  # USA
-    ])}):")
+    ])
+    print(f"\n📍 TARGET LOCATIONS ({locations_count}):")
     
     emea_cities = ['London, UK', 'Amsterdam, Netherlands', 'Dublin, Ireland', 'Zurich, Switzerland', 
                   'Paris, France', 'Stockholm, Sweden', 'Copenhagen, Denmark', 'Oslo, Norway']

@@ -37,13 +37,17 @@ def main():
         run_premium_ui()
     except ImportError as e:
         st.error(f"Could not load Premium UI module: {e}")
-        st.info("Falling back to standard UI...")
-        # Fallback to standard UI
+        st.info("Falling back to enhanced dashboard...")
+        # Fallback to enhanced dashboard
         try:
-            from ui.modern_job_autopilot_ui import main as run_ui
+            from ui.enhanced_dashboard import main as run_ui
             run_ui()
         except ImportError:
-            st.error("No UI modules available")
+            try:
+                from ui.ultimate_job_dashboard import main as run_ui
+                run_ui()
+            except ImportError:
+                st.error("No UI modules available")
     except Exception as e:
         st.error(f"Application error: {e}")
         st.info("Please check the logs for more details")
