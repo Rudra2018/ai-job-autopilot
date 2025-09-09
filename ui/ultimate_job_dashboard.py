@@ -20,6 +20,8 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 import yaml
 
+from theme import apply_theme
+
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -46,11 +48,13 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+apply_theme()
+
 # Custom CSS for modern design
 st.markdown("""
 <style>
     .main-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
         padding: 2rem;
         border-radius: 15px;
         margin-bottom: 2rem;
@@ -63,7 +67,7 @@ st.markdown("""
         padding: 1.5rem;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        border-left: 4px solid #667eea;
+        border-left: 4px solid var(--primary-color);
         margin-bottom: 1rem;
     }
     

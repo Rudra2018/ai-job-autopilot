@@ -22,6 +22,8 @@ import tempfile
 import random
 import re
 
+from theme import apply_theme
+
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -39,6 +41,8 @@ try:
 except Exception:
     pass
 
+apply_theme()
+
 def load_premium_css():
     """Load clean, professional theme with excellent readability"""
     st.markdown("""
@@ -47,7 +51,7 @@ def load_premium_css():
         
         /* CLEAN PROFESSIONAL THEME */
         .stApp {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
             font-family: 'Inter', sans-serif !important;
         }
         
@@ -82,7 +86,7 @@ def load_premium_css():
         
         /* CLEAN BUTTONS */
         .stButton > button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
             color: white !important;
             border: none !important;
             border-radius: 8px !important;
@@ -114,7 +118,7 @@ def load_premium_css():
         .stTextInput > div > div > input:focus,
         .stSelectbox > div > div > div:focus,
         .stNumberInput > div > div > input:focus {
-            border-color: #667eea !important;
+            border-color: var(--primary-color) !important;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
             outline: none !important;
         }
@@ -122,14 +126,14 @@ def load_premium_css():
         /* CLEAN FILE UPLOADER */
         .stFileUploader {
             background: rgba(255, 255, 255, 0.8) !important;
-            border: 2px dashed #667eea !important;
+            border: 2px dashed var(--primary-color) !important;
             border-radius: 12px !important;
             padding: 2rem !important;
             text-align: center !important;
         }
         
         .stFileUploader:hover {
-            border-color: #764ba2 !important;
+            border-color: var(--secondary-color) !important;
             background: rgba(255, 255, 255, 0.9) !important;
         }
         
@@ -152,7 +156,7 @@ def load_premium_css():
         
         /* METRIC CARDS */
         .metric-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
             color: white !important;
             border-radius: 16px !important;
             padding: 1.5rem !important;
@@ -184,7 +188,7 @@ def load_premium_css():
         
         /* BEAUTIFUL HEADER */
         .premium-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
             padding: 4rem 2rem !important;
             border-radius: 25px !important;
             color: white !important;
@@ -250,7 +254,7 @@ def load_premium_css():
         }
         
         .stTabs [aria-selected="true"] {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
             color: white !important;
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3) !important;
         }
@@ -261,7 +265,7 @@ def load_premium_css():
             border-radius: 16px !important;
             padding: 1.5rem !important;
             margin: 1rem 0 !important;
-            border-left: 5px solid #667eea !important;
+            border-left: 5px solid var(--primary-color) !important;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
             transition: all 0.3s ease !important;
             backdrop-filter: blur(5px) !important;
@@ -270,7 +274,7 @@ def load_premium_css():
         .job-card:hover {
             transform: translateX(8px) translateY(-2px) !important;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important;
-            border-left-color: #764ba2 !important;
+            border-left-color: var(--secondary-color) !important;
         }
         
         .job-title {
@@ -281,14 +285,14 @@ def load_premium_css():
         }
         
         .job-company {
-            color: #667eea !important;
+            color: var(--primary-color) !important;
             font-weight: 600 !important;
             font-size: 1rem !important;
         }
         
         /* PROGRESS BARS */
         .stProgress > div > div > div {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
             border-radius: 10px !important;
         }
         
