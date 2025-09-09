@@ -49,19 +49,41 @@ def real_linkedin_apply(job_url, resume_path=RESUME_PATH):
             page.goto(job_url)
             time.sleep(4)
 
-            if page.locator("button:has-text('Easy Apply')").is_visible():
-                page.click("button:has-text('Easy Apply')")
+            # Look for the Easy Apply button using multiple selectors to handle UI changes
+            easy_apply_selectors = [
+                "button:has-text('Easy Apply')",
+                "button:has-text('Apply')",
+                "button[aria-label*='Easy Apply']",
+                ".jobs-apply-button--top-card",
+            ]
+
+            easy_apply_button = None
+            for selector in easy_apply_selectors:
+                locator = page.locator(selector)
+                try:
+                    if locator.count() and locator.first.is_visible():
+                        easy_apply_button = locator.first
+                        break
+                except Exception:
+                    continue
+
+            if easy_apply_button:
+                easy_apply_button.click()
                 time.sleep(2)
 
                 if page.locator("input[type='file']").is_visible():
                     page.set_input_files("input[type='file']", resume_path)
 
                 # Click through multi-step forms
-                while page.locator("button:has-text('Next'), button:has-text('Review'), button:has-text('Submit')").is_visible():
+                while page.locator(
+                    "button:has-text('Next'), button:has-text('Review'), button:has-text('Submit')"
+                ).is_visible():
                     try:
-                        page.locator("button:has-text('Next'), button:has-text('Review'), button:has-text('Submit')").first.click()
+                        page.locator(
+                            "button:has-text('Next'), button:has-text('Review'), button:has-text('Submit')"
+                        ).first.click()
                         time.sleep(2)
-                    except:
+                    except Exception:
                         break
 
                 print(f"[✅] Applied to LinkedIn job: {job_url}")

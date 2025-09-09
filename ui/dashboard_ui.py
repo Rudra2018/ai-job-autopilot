@@ -3,7 +3,7 @@ from extensions.parser import parse_resume
 from worker.keyword_matcher import match_jobs_to_resume
 from worker.recruiter_message_generator import generate_message
 from extensions.mock_interview import ask_question
-from worker.playwright_apply import simulate_job_apply
+from worker.playwright_apply import auto_detect_and_apply
 from worker.application_logger import read_application_log
 from pathlib import Path
 
@@ -24,11 +24,19 @@ if resume_file:
 
 if resume_text:
     st.markdown("### 🎯 Match to Target Jobs")
-    matched_jobs = match_jobs_to_resume(resume_text, ["Security Engineer", "Cloud Security Engineer"], {"locations": ["Berlin", "Remote"]})
-    for job in matched_jobs:
+    matched_jobs = match_jobs_to_resume(
+        resume_text,
+        ["Security Engineer", "Cloud Security Engineer"],
+        {"locations": ["Berlin", "Remote"]},
+    )
+    for idx, job in enumerate(matched_jobs):
         st.success(f"Matched: {job['title']} at {job['company']}")
-        if st.button(f"Auto Apply: {job['title']} @ {job['company']}"):
-            simulate_job_apply(job)
+        if st.button(
+            f"Auto Apply: {job['title']} @ {job['company']}",
+            key=f"apply_{idx}",
+        ):
+            with st.spinner("Applying via Easy Apply..."):
+                auto_detect_and_apply(job)
 
     st.markdown("---")
     st.markdown("### 💬 Mock Interview")
