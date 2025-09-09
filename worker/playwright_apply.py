@@ -84,7 +84,8 @@ def real_linkedin_apply(job_url, resume_path=RESUME_PATH):
 
             print(f"🌐 Opening job: {job_url}")
             page.goto(job_url)
-            time.sleep(4)
+            # Wait for the job page to fully load before searching for buttons
+            page.wait_for_load_state("domcontentloaded")
 
             # Look for the Easy Apply button using multiple selectors to handle UI changes
             easy_apply_selectors = [
@@ -96,30 +97,31 @@ def real_linkedin_apply(job_url, resume_path=RESUME_PATH):
 
             easy_apply_button = None
             for selector in easy_apply_selectors:
-                locator = page.locator(selector)
+                locator = page.locator(selector).first
                 try:
-                    if locator.count() and locator.first.is_visible():
-                        easy_apply_button = locator.first
-                        break
-                except Exception:
+                    locator.wait_for(state="visible", timeout=3000)
+                    easy_apply_button = locator
+                    break
+                except PlaywrightTimeout:
                     continue
 
             if easy_apply_button:
                 easy_apply_button.click()
-                time.sleep(2)
+                page.wait_for_timeout(1000)
 
                 if page.locator("input[type='file']").is_visible():
                     page.set_input_files("input[type='file']", resume_path)
 
                 # Click through multi-step forms
-                while page.locator(
-                    "button:has-text('Next'), button:has-text('Review'), button:has-text('Submit')"
-                ).is_visible():
+                while True:
+                    next_button = page.locator(
+                        "button:has-text('Next'), button:has-text('Review'), button:has-text('Submit')"
+                    ).first
+                    if not next_button.is_visible():
+                        break
                     try:
-                        page.locator(
-                            "button:has-text('Next'), button:has-text('Review'), button:has-text('Submit')"
-                        ).first.click()
-                        time.sleep(2)
+                        next_button.click()
+                        page.wait_for_timeout(1000)
                     except Exception:
                         break
 

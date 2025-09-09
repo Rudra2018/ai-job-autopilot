@@ -53,7 +53,7 @@ if resume_text:
             key=f"apply_{idx}",
         ):
             with st.spinner("Applying via Easy Apply..."):
-                auto_detect_and_apply(job)
+                auto_detect_and_apply(job, resume_path=temp_path)
 
     if st.button("AI Smart Apply to All Matches"):
         with st.spinner("Scanning and applying to jobs..."):
