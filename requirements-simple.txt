@@ -1,0 +1,24 @@
+# Simplified requirements for production deployment
+# Core Streamlit application
+
+# Web framework
+streamlit>=1.28.0
+pandas>=2.0.0
+plotly>=5.15.0
+
+# AI APIs
+openai>=1.0.0
+google-generativeai>=0.3.0
+
+# Document processing  
+PyPDF2>=3.0.0
+python-docx>=0.8.11
+Pillow>=10.0.0
+
+# Basic utilities
+requests>=2.31.0
+python-dotenv>=1.0.0
+pyyaml>=6.0.0
+
+# Date/time
+python-dateutil>=2.8.0

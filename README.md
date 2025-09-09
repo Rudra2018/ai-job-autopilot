@@ -1,8 +1,67 @@
-# 🚀 AI Job Autopilot - Premium Edition
+# 🚀 AI Job Autopilot
 
-**Advanced AI-powered job application automation with multi-AI resume parsing, intelligent job discovery, and beautiful modern UI.**
+**Professional AI-Powered Job Application Automation System with Multi-Agent Orchestration**
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://python.org)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Streamlit](https://img.shields.io/badge/streamlit-1.28+-brightgreen.svg)](https://streamlit.io/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [System Architecture](#system-architecture)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Multi-Agent System](#multi-agent-system)
+- [API Documentation](#api-documentation)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+
+## 🎯 Overview
+
+AI Job Autopilot is a comprehensive job application automation system that leverages artificial intelligence and multi-agent orchestration to streamline the job search process. Built for **Ankit Thakur**, this system provides intelligent resume parsing, job matching, and automated application submission across multiple platforms.
+
+### Key Capabilities
+
+- **🤖 Multi-Agent Orchestration**: 6 specialized AI agents working in harmony
+- **📄 Intelligent Resume Processing**: Advanced OCR and AI-powered parsing
+- **🎯 Smart Job Discovery**: Multi-platform job search with semantic matching
+- **🚀 Automated Applications**: Stealth-mode application submission
+- **📊 Real-time Analytics**: Performance tracking and success metrics
+- **🎨 Modern UI**: Glassmorphism design with dark/light mode
+
+## ✨ Features
+
+### Core Features
+- **Resume Analysis**: OCR text extraction + AI parsing + skill analysis
+- **Job Discovery**: LinkedIn, Indeed, Glassdoor integration
+- **Application Automation**: Human-like behavior simulation
+- **Performance Analytics**: Success rates, match scores, response tracking
+- **Streamlit Dashboard**: Interactive web interface
+
+### Advanced Features
+- **Multi-Engine OCR**: Google Vision, Tesseract, EasyOCR, PaddleOCR
+- **AI Model Ensemble**: GPT-4, Claude 3.5, Gemini integration
+- **Stealth Mode**: Anti-detection measures for automation
+- **Quality Gates**: Confidence thresholds and validation
+- **Error Recovery**: Automatic retry with exponential backoff
+
+## 🏗️ System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                     ORCHESTRATION LAYER                              │
+├─────────────────────────────────────────────────────────────────────┤
+│  📄 OCR Agent → 🔍 Parser Agent → 🧠 Skill Agent                    │
+│                           ↓                                         │
+│                  🎯 Discovery Agent                                  │
+│                     ↓           ↓                                   │
+│              🎨 UI Agent    🤖 Automation Agent                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![AI Powered](https://img.shields.io/badge/AI-GPT4%20%7C%20Claude%20%7C%20Gemini-purple?logo=openai)](https://openai.com)
 [![UI](https://img.shields.io/badge/UI-Streamlit%20Premium-orange?logo=streamlit)](https://streamlit.io)

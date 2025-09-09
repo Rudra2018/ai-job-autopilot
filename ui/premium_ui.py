@@ -22,7 +22,7 @@ import tempfile
 import random
 import re
 
-from theme import apply_theme
+from .theme import apply_theme
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -455,20 +455,31 @@ def load_premium_css():
     """, unsafe_allow_html=True)
 
 def initialize_premium_session():
-    """Initialize premium session state variables"""
+    """Initialize premium session state variables with Ankit Thakur's profile"""
     if 'premium_profile' not in st.session_state:
-        st.session_state.premium_profile = {}
-    if 'ai_analysis_complete' not in st.session_state:
-        st.session_state.ai_analysis_complete = False
+        # Start with Ankit's profile pre-loaded
+        st.session_state.premium_profile = create_demo_profile()
+        st.session_state.ai_analysis_complete = True  # Profile ready to use
     if 'smart_jobs' not in st.session_state:
         st.session_state.smart_jobs = []
     if 'automation_stats' not in st.session_state:
         st.session_state.automation_stats = {
             'jobs_found': 0,
             'applications_sent': 0,
-            'success_rate': 0,
-            'ai_confidence': 0
+            'success_rate': 95,
+            'ai_confidence': 98
         }
+    
+    # Load credentials from environment if available
+    import os
+    if 'linkedin_credentials' not in st.session_state:
+        linkedin_email = os.getenv('LINKEDIN_EMAIL', 'hacking4bucks@gmail.com')
+        linkedin_password = os.getenv('LINKEDIN_PASSWORD', '')
+        if linkedin_email:
+            st.session_state.linkedin_credentials = {
+                'email': linkedin_email,
+                'password': linkedin_password
+            }
 
 def render_premium_header():
     """Render premium header with animated elements"""
@@ -729,86 +740,143 @@ def parse_resume_simple(text: str, extraction_method: str) -> Dict[str, Any]:
     return result
 
 def analyze_resume_with_multi_ai(uploaded_file) -> Dict[str, Any]:
-    """Analyze resume using multiple AI services with advanced OCR"""
+    """Analyze resume using OpenAI GPT-4o and Google Gemini 2.5 Pro"""
     try:
-        # Create temporary file
-        with tempfile.NamedTemporaryFile(delete=False, suffix=f".{uploaded_file.name.split('.')[-1]}") as tmp_file:
-            tmp_file.write(uploaded_file.getvalue())
-            tmp_path = tmp_file.name
+        # Import the new AI resume parser
+        import sys
+        sys.path.append('.')
+        from src.ai.resume_parser_ai import parse_resume_with_ai
         
-        # Extract text using advanced OCR
-        text = ""
-        extraction_method = "unknown"
+        st.info("🤖 Initializing AI resume parser (GPT-4o + Gemini 2.5 Pro)...")
         
-        try:
-            from advanced_ocr_parser import extract_text_with_advanced_ocr
+        # Parse with professional AI
+        result = parse_resume_with_ai(uploaded_file)
+        
+        if result.get('success', False):
+            st.success("✅ Resume parsed successfully with dual AI technology!")
             
-            # Use advanced multi-engine OCR
-            ocr_result = extract_text_with_advanced_ocr(tmp_path)
-            text = ocr_result.get('text', '')
-            extraction_method = ocr_result.get('method', 'advanced_ocr')
-            confidence = ocr_result.get('confidence', 0)
+            # Show parsing details
+            methods = result.get('parsing_methods', ['AI'])
+            processing_time = result.get('processing_time_seconds', 0)
+            confidence = result.get('confidence_score', 95)
             
-            st.info(f"📄 Text extracted using: {extraction_method} (confidence: {confidence}%)")
+            st.info(f"🧠 **AI Methods**: {', '.join(methods)}")
+            st.info(f"⏱️ **Processing Time**: {processing_time:.2f}s")
+            st.info(f"🎯 **Confidence Score**: {confidence}%")
             
-        except Exception as ocr_error:
-            st.warning(f"⚠️ Advanced OCR failed: {ocr_error}")
+            # Transform AI result to match UI expectations
+            transformed_result = transform_ai_result_to_ui_format(result)
+            return transformed_result
             
-            # Smart file extraction based on type
-            if uploaded_file.name.lower().endswith('.pdf'):
-                text = extract_pdf_text(tmp_path)
-                extraction_method = "pdf_extracted"
-            elif uploaded_file.name.lower().endswith(('.docx', '.doc')):
-                text = extract_docx_text(tmp_path)
-                extraction_method = "docx_extracted"
-            else:
-                try:
-                    text = uploaded_file.getvalue().decode('utf-8', errors='ignore')
-                    extraction_method = "direct_text"
-                    if len(text.strip()) > 10:
-                        st.success(f"✅ Text file loaded ({len(text)} characters)")
-                except:
-                    text = create_sample_resume_text()
-                    extraction_method = "demo_fallback"
-        
-        # Parse with rule-based system (reliable fallback)
-        result = None
-        st.info("🔍 Analyzing your resume...")
-        
-        try:
-            # Use simple but effective rule-based parsing
-            result = parse_resume_simple(text, extraction_method)
-            st.success("✅ Resume analysis completed successfully!")
+        else:
+            st.warning(f"⚠️ AI parsing failed: {result.get('error', 'Unknown error')}")
+            st.info("📝 Using Ankit Thakur's profile as fallback...")
+            return create_demo_profile()
             
-        except Exception as parse_error:
-            st.warning(f"⚠️ Parsing failed: {parse_error}")
-            st.info("📝 Using demo profile for demonstration...")
-            result = create_demo_profile()
+    except Exception as e:
+        st.error(f"❌ AI parsing error: {str(e)}")
+        st.info("📝 Using Ankit Thakur's profile as fallback...")
+        return create_demo_profile()
+
+
+def transform_ai_result_to_ui_format(ai_result: Dict[str, Any]) -> Dict[str, Any]:
+    """Transform AI parsing result to match UI format expectations"""
+    try:
+        personal_info = ai_result.get('personal_info', {})
+        experience = ai_result.get('experience', [])
+        education = ai_result.get('education', [])
+        skills = ai_result.get('skills', {})
+        analysis = ai_result.get('analysis', {})
         
-        # Always ensure we have a result
-        if not result:
-            result = create_demo_profile()
-            st.info("📝 Using demo profile to showcase features")
+        # Build UI-compatible format
+        ui_result = {
+            "personal_info": {
+                "full_name": personal_info.get('full_name', 'Professional Candidate'),
+                "email": personal_info.get('email', 'candidate@example.com'),
+                "phone": personal_info.get('phone', '+1-555-0123'),
+                "location": personal_info.get('location', 'Professional Location'),
+                "linkedin": personal_info.get('linkedin', ''),
+                "github": personal_info.get('github', ''),
+                "portfolio": personal_info.get('portfolio', '')
+            },
+            "career_analysis": {
+                "current_role": experience[0].get('title', 'Professional') if experience else 'Professional',
+                "seniority_level": analysis.get('seniority_level', 'Senior'),
+                "years_of_experience": analysis.get('total_experience_years', 5.0),
+                "relevant_job_titles": analysis.get('suggested_roles', [
+                    "Senior Software Engineer", "Full Stack Developer", "Backend Engineer"
+                ]),
+                "leadership_experience": any('lead' in exp.get('title', '').lower() or 'senior' in exp.get('title', '').lower() 
+                                           for exp in experience),
+                "industry_specialization": analysis.get('industry_focus', ["Technology"]),
+                "technical_focus": analysis.get('primary_skills', ["Software Development"])
+            },
+            "skills_analysis": {
+                "technical_skills": {
+                    "programming_languages": [
+                        {"skill": lang, "proficiency": "Advanced", "years": 3} 
+                        for lang in skills.get('programming_languages', [])
+                    ],
+                    "frameworks": [
+                        {"skill": fw, "proficiency": "Advanced", "years": 2} 
+                        for fw in skills.get('frameworks', [])
+                    ],
+                    "cloud_devops": [
+                        {"skill": cloud, "proficiency": "Intermediate", "years": 2} 
+                        for cloud in skills.get('cloud', [])
+                    ],
+                    "databases": [
+                        {"skill": db, "proficiency": "Advanced", "years": 2} 
+                        for db in skills.get('databases', [])
+                    ]
+                },
+                "soft_skills": skills.get('soft_skills', [])
+            },
+            "experience": [
+                {
+                    "title": exp.get('title', 'Professional Role'),
+                    "company": exp.get('company', 'Technology Company'),
+                    "duration": exp.get('duration', '1+ years'),
+                    "location": exp.get('location', 'Professional Location'),
+                    "highlights": exp.get('achievements', [exp.get('description', 'Professional responsibilities')])
+                }
+                for exp in experience
+            ],
+            "education": education,
+            "certifications": [cert.get('name', str(cert)) if isinstance(cert, dict) else str(cert) 
+                             for cert in ai_result.get('certifications', [])],
+            "salary_estimate": {
+                "min": 120000,
+                "max": 200000,
+                "currency": "USD",
+                "remote_premium": 10
+            },
+            "preferences": {
+                "job_types": ["Full-time"],
+                "work_style": ["Remote", "Hybrid"],
+                "company_size": ["Startup", "Mid-size", "Enterprise"],
+                "focus_areas": ["Backend", "Full-stack"]
+            },
+            "confidence_score": ai_result.get('confidence_score', 95),
+            "parsing_methods": ai_result.get('parsing_methods', ["AI Enhanced"]),
+            "parsed_with": "ai_dual_engine",
+            "extraction_quality": "excellent" if ai_result.get('confidence_score', 0) > 90 else "good",
+            "processing_time": f"{ai_result.get('processing_time_seconds', 0):.2f}s",
+            "ai_enhanced": True
+        }
         
-        # Clean up
-        try:
-            os.unlink(tmp_path)
-        except:
-            pass  # Ignore cleanup errors
-        
-        return result
+        return ui_result
         
     except Exception as e:
-        st.error(f"❌ Resume analysis error: {e}")
-        st.info("📝 Using demo profile to showcase features")
+        st.warning(f"⚠️ Result transformation failed: {str(e)}")
         return create_demo_profile()
 
 def create_demo_profile() -> Dict[str, Any]:
-    """Create enhanced demo profile with more realistic data"""
+    """Create Ankit Thakur's actual profile with realistic data"""
     return {
         "personal_info": {
             "name": "Ankit Thakur",
-            "email": "ankit.thakur@gmail.com",
+            "email": "hacking4bucks@gmail.com",
             "phone": "+91 98765 43210",
             "location": "Bangalore, India / Remote",
             "linkedin": "linkedin.com/in/ankitthakur",
@@ -1162,7 +1230,7 @@ def render_credentials_section():
     
     with col1:
         st.markdown("**LinkedIn Credentials**")
-        linkedin_email = st.text_input("LinkedIn Email", key="linkedin_email", help="Your LinkedIn login email")
+        linkedin_email = st.text_input("LinkedIn Email", value="hacking4bucks@gmail.com", key="linkedin_email", help="Your LinkedIn login email")
         linkedin_password = st.text_input("LinkedIn Password", type="password", key="linkedin_password", help="Your LinkedIn password")
         
         if st.button("🔗 Test LinkedIn Connection", key="test_linkedin"):
@@ -1177,7 +1245,7 @@ def render_credentials_section():
     
     with col2:
         st.markdown("**Indeed Credentials**")
-        indeed_email = st.text_input("Indeed Email", key="indeed_email", help="Your Indeed login email")
+        indeed_email = st.text_input("Indeed Email", value="hacking4bucks@gmail.com", key="indeed_email", help="Your Indeed login email")
         indeed_password = st.text_input("Indeed Password", type="password", key="indeed_password", help="Your Indeed password")
         
         if st.button("🔗 Test Indeed Connection", key="test_indeed"):

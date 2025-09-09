@@ -5,8 +5,17 @@
 .env.local
 .env.production
 .env.staging
+.env.example
 *.key
 *.pem
+config/credentials.json
+config/secrets.json
+*_api_key*
+*_secret*
+*_token*
+credentials.py
+secrets.py
+api_keys.txt
 
 # Personal Data
 config/resume.pdf
