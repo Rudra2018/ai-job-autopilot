@@ -1,27 +1,93 @@
 {
-  "user_profile": {
-    "raw_text": ""
+  "resume_json": {
+    "name": "AT",
+    "contact_info": {
+      "email": null,
+      "phone": null
+    },
+    "summary": "ANKITTHAKUR at87.at17@gmail.com| +91 8717934430| Indore India Dynamic cybersecurity professional with extensive experience at Halodoc Technologies LLP, specializing in penetration testing and API security. Proven track record of enhancing data protection and reducing security risks. Adept at",
+    "education": [],
+    "experience": [],
+    "skills": [],
+    "certifications": [],
+    "languages": []
   },
-  "skills_profile": [],
-  "job_matches": [],
-  "cover_letters": [],
-  "compliance_report": {
-    "status": "not executed"
+  "optimized_profile_json": {
+    "name": "AT",
+    "contact_info": {
+      "email": null,
+      "phone": null
+    },
+    "summary": "ANKITTHAKUR at87.at17@gmail.com| +91 8717934430| Indore India Dynamic cybersecurity professional with extensive experience at Halodoc Technologies LLP, specializing in penetration testing and API security. Proven track record of enhancing data protection and reducing security risks. Adept at",
+    "education": [],
+    "experience": [],
+    "skills": [],
+    "certifications": [],
+    "languages": [],
+    "keyword_recommendations": [
+      "DevSecOps",
+      "GDPR"
+    ],
+    "suggested_titles": [
+      "Security Engineer",
+      "Penetration Tester"
+    ]
+  },
+  "job_posts_json": [
+    {
+      "title": "Spezialist (m/w/d) Stammdatenmanagement \u2013 SAP S/4HANA",
+      "company": null,
+      "location": "Frankfurt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/univativ-gmbh/spezialist-stammdatenmanagement-sap-s-4hana-frankfurt-99846",
+      "apply_type": "External"
+    },
+    {
+      "title": "Senior Financial Controller (m/w/d)",
+      "company": null,
+      "location": "Darmstadt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/univativ-gmbh/senior-financial-controller-darmstadt-65929",
+      "apply_type": "External"
+    },
+    {
+      "title": "Wirtschaftspr\u00fcfer Audit & Advisory (m/w/d) bring deine Karriere ins Rollen",
+      "company": null,
+      "location": "Munich",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/schwertfels-consulting-gmbh/wirtschaftsprufer-audit-advisory-bring-deine-karriere-ins-rollen-munich-79605",
+      "apply_type": "External"
+    },
+    {
+      "title": "Wirtschaftspr\u00fcfer Audit & Advisory (m/w/d) bring deine Karriere ins Rollen",
+      "company": null,
+      "location": "Frankfurt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/schwertfels-consulting-gmbh/wirtschaftsprufer-audit-advisory-bring-deine-karriere-ins-rollen-frankfurt-431283",
+      "apply_type": "External"
+    },
+    {
+      "title": "Desktop Support Specialist (m/w/d)",
+      "company": null,
+      "location": "Frankfurt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/univativ-gmbh/desktop-support-specialist-frankfurt-92291",
+      "apply_type": "External"
+    }
+  ],
+  "application_report_json": {
+    "total_jobs": 5,
+    "applied_count": 5,
+    "failed_count": 0,
+    "success_rate": 100.0,
+    "error_logs": []
   },
   "ui_components": {
     "ui_path": "ui/generated"
   },
-  "applications": [],
-  "tracking": {
-    "applications": [],
-    "history": []
-  },
-  "optimization": {
-    "recommendations": []
-  },
   "metadata": {
-    "pipeline_id": "2eb3ac2e-6c30-4c59-a680-45a2a96cbe8f",
-    "timestamp": "2025-09-10T07:40:19.980456",
+    "pipeline_id": "6ce5a7cd-b223-4bca-892a-77ff6095805f",
+    "timestamp": "2025-09-10T08:57:34.183553",
     "logs": [],
     "errors": []
   }
