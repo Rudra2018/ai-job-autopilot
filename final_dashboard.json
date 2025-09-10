@@ -1,5 +1,13 @@
 {
   "resume_json": {
+
+    "name": "AT",
+    "contact_info": {
+      "email": null,
+      "phone": null
+    },
+    "summary": "ANKITTHAKUR at87.at17@gmail.com| +91 8717934430| Indore India Dynamic cybersecurity professional with extensive experience at Halodoc Technologies LLP, specializing in penetration testing and API security. Proven track record of enhancing data protection and reducing security risks. Adept at",
+=======
     "name": "Ankitthakur",
     "contact_info": {
       "email": "at87.at17@gmail.com",
@@ -13,19 +21,33 @@
     "languages": []
   },
   "optimized_profile_json": {
+
+    "name": "AT",
+    "contact_info": {
+      "email": null,
+      "phone": null
+    },
+    "summary": "ANKITTHAKUR at87.at17@gmail.com| +91 8717934430| Indore India Dynamic cybersecurity professional with extensive experience at Halodoc Technologies LLP, specializing in penetration testing and API security. Proven track record of enhancing data protection and reducing security risks. Adept at",
+=======
     "name": "Ankitthakur",
     "contact_info": {
       "email": "at87.at17@gmail.com",
       "phone": "+91 8717934430"
     },
     "summary": "Dynamic cybersecurity professional with extensive experience at Halodoc Technologies LLP, specializing in penetration testing and API security. Proven track record of enhancing data protection and reducing security risks. Adept at collaborating with teams and implementing GDPR-compliant frameworks, while demonstrating strong analytical skills and a commitment to excellence. Penetration Testing",
+
     "education": [],
     "experience": [],
     "skills": [],
     "certifications": [],
     "languages": [],
     "keyword_recommendations": [
+
+      "DevSecOps",
+      "GDPR"
+=======
       "DevSecOps"
+
     ],
     "suggested_titles": [
       "Security Engineer",
@@ -34,6 +56,45 @@
   },
   "job_posts_json": [
     {
+
+      "title": "Spezialist (m/w/d) Stammdatenmanagement \u2013 SAP S/4HANA",
+      "company": null,
+      "location": "Frankfurt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/univativ-gmbh/spezialist-stammdatenmanagement-sap-s-4hana-frankfurt-99846",
+      "apply_type": "External"
+    },
+    {
+      "title": "Senior Financial Controller (m/w/d)",
+      "company": null,
+      "location": "Darmstadt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/univativ-gmbh/senior-financial-controller-darmstadt-65929",
+      "apply_type": "External"
+    },
+    {
+      "title": "Wirtschaftspr\u00fcfer Audit & Advisory (m/w/d) bring deine Karriere ins Rollen",
+      "company": null,
+      "location": "Munich",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/schwertfels-consulting-gmbh/wirtschaftsprufer-audit-advisory-bring-deine-karriere-ins-rollen-munich-79605",
+      "apply_type": "External"
+    },
+    {
+      "title": "Wirtschaftspr\u00fcfer Audit & Advisory (m/w/d) bring deine Karriere ins Rollen",
+      "company": null,
+      "location": "Frankfurt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/schwertfels-consulting-gmbh/wirtschaftsprufer-audit-advisory-bring-deine-karriere-ins-rollen-frankfurt-431283",
+      "apply_type": "External"
+    },
+    {
+      "title": "Desktop Support Specialist (m/w/d)",
+      "company": null,
+      "location": "Frankfurt",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/univativ-gmbh/desktop-support-specialist-frankfurt-92291",
+=======
       "title": "Data Engineer Azure (m/w/d)",
       "company": null,
       "location": "Karlsruhe",
@@ -71,24 +132,37 @@
       "location": "Berlin",
       "salary_estimate": null,
       "job_url": "https://www.arbeitnow.com/jobs/companies/digitale-leute-school-dl-education/trainee-ux-ui-designer-berlin-369214",
+
       "apply_type": "External"
     }
   ],
   "application_report_json": {
     "total_jobs": 5,
+
+    "applied_count": 5,
+    "failed_count": 0,
+    "success_rate": 100.0,
+    "error_logs": []
+=======
     "applied_count": 0,
     "failed_count": 5,
     "success_rate": 0.0,
     "error_logs": [
       "Automation not implemented in demo"
     ]
+
   },
   "ui_components": {
     "ui_path": "ui/generated"
   },
   "metadata": {
+
+    "pipeline_id": "2feb6258-63c4-42b0-af9e-c6be4ebd5b80",
+    "timestamp": "2025-09-10T09:11:31.831303",
+=======
     "pipeline_id": "bee01af3-a9ef-4be9-afe4-c68fc5ea870e",
     "timestamp": "2025-09-10T08:38:18.434964",
+
     "logs": [],
     "errors": []
   }

@@ -125,16 +125,18 @@ ANTHROPIC_API_KEY=sk-ant-api03-your_key_here
 GEMINI_API_KEY=your_gemini_key_here
 ```
 
-### 3. **Launch Premium UI**
+### 3. **Run the application**
 ```bash
-# Start the premium application
-streamlit run main.py
+# Generate dashboard data
+python production/agent_pipeline.py
 
-# Custom port (if 8501 is busy)
-streamlit run main.py --server.port 8502
+# In a new terminal start the Next.js frontend
+cd ui/next
+npm install
+npm run dev
 ```
 
-**🌟 Access your premium dashboard at: `http://localhost:8501`**
+**🌟 Open `http://localhost:3000` to view the dashboard**
 
 ## 🏗️ **Architecture Overview**
 
