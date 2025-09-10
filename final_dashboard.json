@@ -1,0 +1,28 @@
+{
+  "user_profile": {
+    "raw_text": ""
+  },
+  "skills_profile": [],
+  "job_matches": [],
+  "cover_letters": [],
+  "compliance_report": {
+    "status": "not executed"
+  },
+  "ui_components": {
+    "ui_path": "ui/generated"
+  },
+  "applications": [],
+  "tracking": {
+    "applications": [],
+    "history": []
+  },
+  "optimization": {
+    "recommendations": []
+  },
+  "metadata": {
+    "pipeline_id": "2eb3ac2e-6c30-4c59-a680-45a2a96cbe8f",
+    "timestamp": "2025-09-10T07:40:19.980456",
+    "logs": [],
+    "errors": []
+  }
+}
