@@ -1,0 +1,156 @@
+version: "1.0"
+
+agents:
+
+  ConfigurationAgent:
+    role: "User Input & Configuration Manager"
+    description: "Collects all user inputs (resume, preferences, credentials), validates them, encrypts sensitive data, and distributes to the correct agents."
+    input: ["resume_file", "user_preferences", "credentials", "style_guide"]
+    output: ["config_package"]
+
+  OCRAgent:
+    role: "OCR & Text Extraction"
+    description: "Extracts clean text from resumes (PDF, image, scanned docs) using multi-engine OCR (Google Vision, Tesseract, EasyOCR, PaddleOCR)."
+    input: ["resume_file"]
+    output: ["raw_text"]
+
+  ParserAgent:
+    role: "Resume Parsing"
+    description: "Parses raw text into structured JSON using ensemble AI (GPT-4o, Claude 3.5, Gemini Pro)."
+    input: ["raw_text"]
+    output: ["parsed_resume"]
+
+  ValidationAgent:
+    role: "Schema Validation"
+    description: "Validates and cleans parsed resume data; ensures schema compliance and fixes missing fields."
+    input: ["parsed_resume"]
+    output: ["validated_resume"]
+
+  SkillAgent:
+    role: "Skill Extraction"
+    description: "Extracts hard/soft skills, years of experience, and career trajectory using ML + NLP models (BERT, spaCy, Transformers)."
+    input: ["validated_resume"]
+    output: ["skills_profile"]
+
+  DiscoveryAgent:
+    role: "Job Discovery"
+    description: "Finds and ranks jobs from top companies with semantic matching, salary estimation, and preference filtering."
+    input: ["skills_profile", "user_preferences"]
+    output: ["job_list"]
+
+  CoverLetterAgent:
+    role: "Cover Letter Generator"
+    description: "Creates personalized cover letters for each job, optimized for ATS and tailored to company culture."
+    input: ["validated_resume", "job_list", "style_guide"]
+    output: ["cover_letters"]
+
+  ComplianceAgent:
+    role: "Compliance & Fairness"
+    description: "Ensures GDPR/EEOC compliance, checks for bias, and validates ethical job application automation."
+    input: ["validated_resume", "cover_letters", "job_list"]
+    output: ["compliance_report"]
+
+  UIAgent:
+    role: "Frontend UI/UX Generator"
+    description: "Produces modern, responsive UI components (React/HTML/CSS) with glassmorphism, dark/light themes, and accessibility."
+    input: ["job_list", "cover_letters", "compliance_report", "style_guide"]
+    output: ["ui_components"]
+
+  SecurityAgent:
+    role: "Credential & Security Manager"
+    description: "Handles secure credential storage, encryption, and malicious job listing detection."
+    input: ["credentials"]
+    output: ["secure_vault_status"]
+
+  AutomationAgent:
+    role: "Application Automation"
+    description: "Automates job applications across LinkedIn, Indeed, Glassdoor, and company sites, while logging detailed status."
+    input: ["job_list", "validated_resume", "cover_letters", "secure_vault_status"]
+    output: ["application_logs"]
+
+  TrackingAgent:
+    role: "Application Tracking"
+    description: "Maintains history of applications, status updates, timestamps, and generates analytics on performance."
+    input: ["application_logs"]
+    output: ["tracking_data"]
+
+  OptimizationAgent:
+    role: "Career Optimization"
+    description: "Analyzes past results and suggests resume tweaks, skill upgrades, and better target roles. Runs A/B testing."
+    input: ["validated_resume", "tracking_data", "job_list"]
+    output: ["optimization_recommendations"]
+
+  SuperCoordinatorAgent:
+    role: "Pipeline Orchestrator"
+    description: "Routes data across all agents, validates outputs, handles retries, and delivers consolidated results."
+    input: ["resume_file", "user_preferences", "credentials", "style_guide"]
+    output: ["final_dashboard"]
+
+workflow:
+  # Intake
+  - from: ConfigurationAgent
+    to: OCRAgent
+  - from: ConfigurationAgent
+    to: DiscoveryAgent
+  - from: ConfigurationAgent
+    to: SecurityAgent
+  - from: ConfigurationAgent
+    to: CoverLetterAgent
+  - from: ConfigurationAgent
+    to: UIAgent
+
+  # Resume processing
+  - from: OCRAgent
+    to: ParserAgent
+  - from: ParserAgent
+    to: ValidationAgent
+  - from: ValidationAgent
+    to: SkillAgent
+
+  # Job discovery & matching
+  - from: SkillAgent
+    to: DiscoveryAgent
+  - from: DiscoveryAgent
+    to: CoverLetterAgent
+  - from: DiscoveryAgent
+    to: AutomationAgent
+
+  # Compliance & UI
+  - from: CoverLetterAgent
+    to: ComplianceAgent
+  - from: ComplianceAgent
+    to: UIAgent
+  - from: ComplianceAgent
+    to: SuperCoordinatorAgent
+  - from: UIAgent
+    to: SuperCoordinatorAgent
+
+  # Automation & Security
+  - from: SecurityAgent
+    to: AutomationAgent
+  - from: ValidationAgent
+    to: AutomationAgent
+  - from: CoverLetterAgent
+    to: AutomationAgent
+  - from: AutomationAgent
+    to: TrackingAgent
+
+  # Tracking & Optimization
+  - from: TrackingAgent
+    to: OptimizationAgent
+  - from: OptimizationAgent
+    to: SuperCoordinatorAgent
+
+  # Final dashboard
+  - from: OCRAgent
+    to: SuperCoordinatorAgent
+  - from: SkillAgent
+    to: SuperCoordinatorAgent
+  - from: DiscoveryAgent
+    to: SuperCoordinatorAgent
+  - from: CoverLetterAgent
+    to: SuperCoordinatorAgent
+  - from: AutomationAgent
+    to: SuperCoordinatorAgent
+  - from: TrackingAgent
+    to: SuperCoordinatorAgent

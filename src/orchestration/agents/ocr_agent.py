@@ -1,6 +1,6 @@
 """
-OCR Agent Implementation
-Handles text extraction from images and PDFs using multiple OCR engines.
+📖 OCRAgent: Multi-engine text extraction with intelligent ensemble processing
+Handles accurate text extraction from images and scanned PDFs using a multi-engine ensemble.
 """
 
 import asyncio
@@ -9,9 +9,20 @@ import io
 import json
 import os
 import tempfile
-from typing import Any, Dict, List, Optional
-from PIL import Image
+import logging
+from typing import Any, Dict, List, Optional, Tuple
+from pathlib import Path
+from PIL import Image, ImageEnhance, ImageFilter
 import pdf2image
+import numpy as np
+try:
+    import cv2
+    CV2_AVAILABLE = True
+except ImportError:
+    CV2_AVAILABLE = False
+from datetime import datetime
+import concurrent.futures
+from difflib import SequenceMatcher
 
 try:
     import pytesseract
@@ -31,27 +42,107 @@ try:
 except ImportError:
     GOOGLE_VISION_AVAILABLE = False
 
+try:
+    import paddleocr
+    PADDLEOCR_AVAILABLE = True
+except ImportError:
+    PADDLEOCR_AVAILABLE = False
+
 from .base_agent import BaseAgent, ProcessingResult
 
 class OCRAgent(BaseAgent):
     """
-    OCR Agent responsible for extracting text from visual sources using multiple OCR engines.
-    Implements intelligent fallback strategies and quality assessment.
+    📖 OCRAgent: Multi-engine text extraction with intelligent ensemble processing
+    
+    Goals:
+    1. Accept image, PDF, or screenshot input
+    2. Use Google Vision, Tesseract, EasyOCR, and PaddleOCR in ensemble mode
+    3. Run engines in parallel and cross-check outputs
+    4. Clean and normalize extracted text with confidence scoring
+    5. Handle multilingual text with layout preservation
+    6. Implement intelligent fallback strategies
     """
     
     def _setup_agent_specific_config(self):
-        """Setup OCR-specific configurations."""
+        """Setup OCR-specific configurations with multi-engine ensemble."""
         
+        # Engine availability and initialization
         self.available_engines = []
-        self.engine_priorities = ['google_vision', 'easyocr', 'tesseract', 'paddleocr']
+        self.engine_priorities = ['google_vision', 'paddleocr', 'easyocr', 'tesseract']
+        self.engines_initialized = {}
         
-        # Check available OCR engines
+        # Text cleaning and normalization settings
+        self.confidence_threshold = 0.6
+        self.consensus_threshold = 0.8  # Agreement required between engines
+        self.multilingual_support = True
+        self.layout_preservation = True
+        
+        # Image preprocessing settings
+        self.image_enhancement = {
+            'contrast_factor': 1.2,
+            'sharpness_factor': 1.1,
+            'brightness_factor': 1.0,
+            'denoise': True,
+            'deskew': True
+        }
+        
+        # Initialize available OCR engines
+        self._initialize_ocr_engines()
+        
+        self.logger.info(f"📖 OCRAgent initialized with {len(self.available_engines)} engines: {self.available_engines}")
+    
+    def _initialize_ocr_engines(self):
+        """Initialize all available OCR engines."""
+        
+        # Google Vision API
         if GOOGLE_VISION_AVAILABLE and os.getenv('GOOGLE_APPLICATION_CREDENTIALS'):
-            self.available_engines.append('google_vision')
-            self.vision_client = vision.ImageAnnotatorClient()
+            try:
+                self.google_client = vision.ImageAnnotatorClient()
+                self.available_engines.append('google_vision')
+                self.engines_initialized['google_vision'] = True
+                self.logger.info("✅ Google Vision API initialized")
+            except Exception as e:
+                self.logger.warning(f"⚠️ Google Vision API failed to initialize: {e}")
         
+        # PaddleOCR
+        if PADDLEOCR_AVAILABLE:
+            try:
+                # Initialize with English and common languages
+                self.paddle_ocr = paddleocr.PaddleOCR(
+                    use_angle_cls=True, 
+                    lang='en',
+                    show_log=False,
+                    use_gpu=False  # Set to True if GPU available
+                )
+                self.available_engines.append('paddleocr')
+                self.engines_initialized['paddleocr'] = True
+                self.logger.info("✅ PaddleOCR initialized")
+            except Exception as e:
+                self.logger.warning(f"⚠️ PaddleOCR failed to initialize: {e}")
+        
+        # EasyOCR
         if EASYOCR_AVAILABLE:
-            self.available_engines.append('easyocr')
+            try:
+                self.easy_reader = easyocr.Reader(['en'], gpu=False)  # Add more languages as needed
+                self.available_engines.append('easyocr')
+                self.engines_initialized['easyocr'] = True
+                self.logger.info("✅ EasyOCR initialized")
+            except Exception as e:
+                self.logger.warning(f"⚠️ EasyOCR failed to initialize: {e}")
+        
+        # Tesseract
+        if TESSERACT_AVAILABLE:
+            try:
+                # Test Tesseract availability
+                pytesseract.get_tesseract_version()
+                self.available_engines.append('tesseract')
+                self.engines_initialized['tesseract'] = True
+                self.logger.info("✅ Tesseract initialized")
+            except Exception as e:
+                self.logger.warning(f"⚠️ Tesseract failed to initialize: {e}")
+        
+        if not self.available_engines:
+            raise RuntimeError("No OCR engines available. Please install at least one OCR engine.")
             self.easyocr_reader = easyocr.Reader(['en'])
         
         if TESSERACT_AVAILABLE:

@@ -90,11 +90,22 @@ class AIJobAutopilotOrchestrator:
         # Initialize agents
         self.agents = {}
         self.agent_status = {}
+        self.agent_communication_hub = {}
+        self.agent_performance_metrics = {}
         self._initialize_agents()
         
-        # Workflow state
+        # Enhanced workflow state
         self.workflow_state = None
         self.execution_results = {}
+        self.inter_agent_messages = []
+        
+        # Load balancing and resource management
+        self.agent_pool = asyncio.Queue()
+        self.resource_monitor = {}
+        
+        # Circuit breaker pattern
+        self.circuit_breakers = {}
+        self._initialize_circuit_breakers()
         
     def _initialize_agents(self):
         """Initialize all specialized agents with their system prompts and configurations."""
@@ -180,15 +191,109 @@ class AIJobAutopilotOrchestrator:
                 }
             )
             
-            # Set all agents as available initially
+            # Set all agents as available initially and initialize communication hub
             for agent_name in self.agents.keys():
                 self.agent_status[agent_name] = AgentStatus.AVAILABLE
+                self.agent_communication_hub[agent_name] = {
+                    'inbox': asyncio.Queue(),
+                    'outbox': asyncio.Queue(),
+                    'message_history': [],
+                    'collaboration_partners': []
+                }
+                self.agent_performance_metrics[agent_name] = {
+                    'success_count': 0,
+                    'failure_count': 0,
+                    'avg_processing_time': 0.0,
+                    'quality_scores': [],
+                    'last_execution': None
+                }
                 
-            self.logger.info(f"Successfully initialized {len(self.agents)} agents")
+            self.logger.info(f"Successfully initialized {len(self.agents)} agents with communication hub")
             
         except Exception as e:
             self.logger.error(f"Failed to initialize agents: {str(e)}")
             raise
+    
+    def _initialize_circuit_breakers(self):
+        """Initialize circuit breakers for each agent to prevent cascade failures."""
+        for agent_name in ['OCRAgent', 'ParserAgent', 'SkillAgent', 'DiscoveryAgent', 'UIAgent', 'AutomationAgent']:
+            self.circuit_breakers[agent_name] = {
+                'state': 'CLOSED',  # CLOSED, OPEN, HALF_OPEN
+                'failure_count': 0,
+                'last_failure_time': None,
+                'threshold': 3,  # failures before opening
+                'timeout': 60,  # seconds before trying HALF_OPEN
+                'success_count': 0
+            }
+    
+    async def _check_circuit_breaker(self, agent_name: str) -> bool:
+        """Check if agent circuit breaker allows execution."""
+        breaker = self.circuit_breakers[agent_name]
+        current_time = time.time()
+        
+        if breaker['state'] == 'OPEN':
+            # Check if timeout has passed for HALF_OPEN
+            if current_time - breaker['last_failure_time'] > breaker['timeout']:
+                breaker['state'] = 'HALF_OPEN'
+                await self.logger.info(f"Circuit breaker for {agent_name} moved to HALF_OPEN")
+                return True
+            return False
+        
+        return True  # CLOSED or HALF_OPEN allows execution
+    
+    async def _update_circuit_breaker(self, agent_name: str, success: bool):
+        """Update circuit breaker state based on execution result."""
+        breaker = self.circuit_breakers[agent_name]
+        
+        if success:
+            breaker['success_count'] += 1
+            if breaker['state'] == 'HALF_OPEN':
+                breaker['state'] = 'CLOSED'
+                breaker['failure_count'] = 0
+                await self.logger.info(f"Circuit breaker for {agent_name} closed after successful execution")
+        else:
+            breaker['failure_count'] += 1
+            breaker['last_failure_time'] = time.time()
+            
+            if breaker['failure_count'] >= breaker['threshold']:
+                breaker['state'] = 'OPEN'
+                await self.logger.warning(f"Circuit breaker for {agent_name} opened due to failures")
+    
+    async def send_inter_agent_message(self, from_agent: str, to_agent: str, message: Dict[str, Any]):
+        """Send message between agents for collaboration."""
+        message_obj = {
+            'id': str(uuid.uuid4()),
+            'from': from_agent,
+            'to': to_agent,
+            'timestamp': datetime.utcnow().isoformat(),
+            'content': message,
+            'type': message.get('type', 'data_exchange')
+        }
+        
+        # Add to recipient's inbox
+        await self.agent_communication_hub[to_agent]['inbox'].put(message_obj)
+        
+        # Add to sender's outbox history
+        self.agent_communication_hub[from_agent]['outbox'].put_nowait(message_obj.copy())
+        
+        # Track message in global history
+        self.inter_agent_messages.append(message_obj)
+        
+        await self.logger.info(f"Message sent from {from_agent} to {to_agent}: {message.get('type', 'data')}")
+    
+    async def get_agent_messages(self, agent_name: str) -> List[Dict[str, Any]]:
+        """Get pending messages for an agent."""
+        messages = []
+        inbox = self.agent_communication_hub[agent_name]['inbox']
+        
+        while not inbox.empty():
+            try:
+                message = await asyncio.wait_for(inbox.get(), timeout=0.1)
+                messages.append(message)
+            except asyncio.TimeoutError:
+                break
+        
+        return messages
 
     async def execute_full_pipeline(self, initial_input: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -291,11 +396,20 @@ class AIJobAutopilotOrchestrator:
         return pipeline_results
 
     async def _execute_agent_with_retry(self, agent_name: str, input_data: Any) -> AgentResult:
-        """Execute an agent with retry logic and error recovery."""
+        """Execute an agent with retry logic, circuit breaker, and performance tracking."""
+        
+        # Check circuit breaker
+        if not await self._check_circuit_breaker(agent_name):
+            raise Exception(f"Agent {agent_name} circuit breaker is OPEN")
         
         agent = self.agents[agent_name]
         max_retries = self.config.max_retries
         last_error = None
+        
+        # Get any pending messages for this agent
+        pending_messages = await self.get_agent_messages(agent_name)
+        if pending_messages:
+            input_data = await self._merge_messages_with_input(agent_name, input_data, pending_messages)
         
         for attempt in range(max_retries + 1):
             try:
@@ -304,10 +418,16 @@ class AIJobAutopilotOrchestrator:
                 
                 start_time = time.time()
                 
-                # Execute agent
+                # Execute agent with enhanced input
                 result = await agent.process(input_data)
                 
                 processing_time = time.time() - start_time
+                
+                # Update performance metrics
+                await self._update_agent_metrics(agent_name, processing_time, True, getattr(result, 'confidence', 1.0))
+                
+                # Update circuit breaker (success)
+                await self._update_circuit_breaker(agent_name, True)
                 
                 # Create agent result
                 agent_result = AgentResult(
@@ -319,12 +439,17 @@ class AIJobAutopilotOrchestrator:
                     metadata={
                         'attempt_number': attempt + 1,
                         'input_size': len(str(input_data)),
-                        'output_size': len(str(result))
+                        'output_size': len(str(result)),
+                        'messages_processed': len(pending_messages),
+                        'circuit_breaker_state': self.circuit_breakers[agent_name]['state']
                     }
                 )
                 
                 # Mark agent as available
                 self.agent_status[agent_name] = AgentStatus.AVAILABLE
+                
+                # Send collaboration messages if needed
+                await self._send_collaboration_messages(agent_name, result)
                 
                 await self.logger.info(
                     f"Agent {agent_name} completed successfully (attempt {attempt + 1})"
@@ -334,6 +459,9 @@ class AIJobAutopilotOrchestrator:
                 
             except Exception as e:
                 last_error = e
+                
+                # Update performance metrics (failure)
+                await self._update_agent_metrics(agent_name, time.time() - start_time, False, 0.0)
                 
                 await self.logger.warning(
                     f"Agent {agent_name} failed (attempt {attempt + 1}): {str(e)}"
@@ -349,9 +477,108 @@ class AIJobAutopilotOrchestrator:
                         agent_name, input_data, e
                     )
         
-        # All retries exhausted
+        # All retries exhausted - update circuit breaker
+        await self._update_circuit_breaker(agent_name, False)
         self.agent_status[agent_name] = AgentStatus.ERROR
         raise Exception(f"Agent {agent_name} failed after {max_retries} retries: {last_error}")
+    
+    async def _update_agent_metrics(self, agent_name: str, processing_time: float, success: bool, quality_score: float):
+        """Update performance metrics for an agent."""
+        metrics = self.agent_performance_metrics[agent_name]
+        
+        if success:
+            metrics['success_count'] += 1
+        else:
+            metrics['failure_count'] += 1
+        
+        # Update average processing time
+        total_executions = metrics['success_count'] + metrics['failure_count']
+        current_avg = metrics['avg_processing_time']
+        metrics['avg_processing_time'] = ((current_avg * (total_executions - 1)) + processing_time) / total_executions
+        
+        # Track quality scores
+        metrics['quality_scores'].append(quality_score)
+        if len(metrics['quality_scores']) > 100:  # Keep only last 100 scores
+            metrics['quality_scores'] = metrics['quality_scores'][-100:]
+        
+        metrics['last_execution'] = datetime.utcnow().isoformat()
+    
+    async def _merge_messages_with_input(self, agent_name: str, input_data: Any, messages: List[Dict[str, Any]]) -> Any:
+        """Merge inter-agent messages with input data."""
+        if not messages:
+            return input_data
+        
+        # Create enhanced input with collaboration data
+        enhanced_input = {
+            'original_input': input_data,
+            'collaboration_data': {},
+            'agent_feedback': []
+        }
+        
+        for message in messages:
+            message_type = message.get('type', 'data_exchange')
+            from_agent = message['from']
+            
+            if message_type == 'data_exchange':
+                enhanced_input['collaboration_data'][from_agent] = message['content']
+            elif message_type == 'feedback':
+                enhanced_input['agent_feedback'].append({
+                    'from': from_agent,
+                    'feedback': message['content']
+                })
+        
+        return enhanced_input
+    
+    async def _send_collaboration_messages(self, agent_name: str, result: Any):
+        """Send collaboration messages based on agent results."""
+        
+        # Define collaboration patterns
+        collaboration_rules = {
+            'OCRAgent': ['ParserAgent'],  # OCR sends to Parser
+            'ParserAgent': ['SkillAgent', 'DiscoveryAgent'],  # Parser sends to Skill and Discovery
+            'SkillAgent': ['DiscoveryAgent'],  # Skill sends to Discovery
+            'DiscoveryAgent': ['UIAgent', 'AutomationAgent'],  # Discovery sends to UI and Automation
+            'UIAgent': [],  # UI doesn't send collaboration messages
+            'AutomationAgent': []  # Automation doesn't send collaboration messages
+        }
+        
+        target_agents = collaboration_rules.get(agent_name, [])
+        
+        for target_agent in target_agents:
+            collaboration_message = {
+                'type': 'data_exchange',
+                'result_summary': {
+                    'confidence': getattr(result, 'confidence', 1.0),
+                    'processing_time': getattr(result, 'processing_time', 0.0),
+                    'key_insights': self._extract_key_insights(agent_name, result)
+                }
+            }
+            
+            await self.send_inter_agent_message(agent_name, target_agent, collaboration_message)
+    
+    def _extract_key_insights(self, agent_name: str, result: Any) -> Dict[str, Any]:
+        """Extract key insights from agent results for collaboration."""
+        
+        if agent_name == 'OCRAgent':
+            return {
+                'text_quality': getattr(result, 'text_quality', 'high'),
+                'document_type': getattr(result, 'document_type', 'resume'),
+                'extraction_confidence': getattr(result, 'confidence', 1.0)
+            }
+        elif agent_name == 'ParserAgent':
+            return {
+                'profile_completeness': getattr(result, 'profile_completeness', 0.8),
+                'key_sections': getattr(result, 'identified_sections', []),
+                'parsing_confidence': getattr(result, 'confidence', 1.0)
+            }
+        elif agent_name == 'SkillAgent':
+            return {
+                'skill_count': len(getattr(result, 'extracted_skills', [])),
+                'technical_skills': getattr(result, 'technical_skills', []),
+                'experience_level': getattr(result, 'experience_level', 'mid')
+            }
+        
+        return {}
 
     async def _prepare_agent_input(self, agent_name: str, previous_results: Dict[str, AgentResult]) -> Any:
         """Prepare input data for each agent based on previous results."""
