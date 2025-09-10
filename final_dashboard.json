@@ -1,27 +1,94 @@
 {
-  "user_profile": {
-    "raw_text": ""
+  "resume_json": {
+    "name": "Ankitthakur",
+    "contact_info": {
+      "email": "at87.at17@gmail.com",
+      "phone": "+91 8717934430"
+    },
+    "summary": "Dynamic cybersecurity professional with extensive experience at Halodoc Technologies LLP, specializing in penetration testing and API security. Proven track record of enhancing data protection and reducing security risks. Adept at collaborating with teams and implementing GDPR-compliant frameworks, while demonstrating strong analytical skills and a commitment to excellence. Penetration Testing",
+    "education": [],
+    "experience": [],
+    "skills": [],
+    "certifications": [],
+    "languages": []
   },
-  "skills_profile": [],
-  "job_matches": [],
-  "cover_letters": [],
-  "compliance_report": {
-    "status": "not executed"
+  "optimized_profile_json": {
+    "name": "Ankitthakur",
+    "contact_info": {
+      "email": "at87.at17@gmail.com",
+      "phone": "+91 8717934430"
+    },
+    "summary": "Dynamic cybersecurity professional with extensive experience at Halodoc Technologies LLP, specializing in penetration testing and API security. Proven track record of enhancing data protection and reducing security risks. Adept at collaborating with teams and implementing GDPR-compliant frameworks, while demonstrating strong analytical skills and a commitment to excellence. Penetration Testing",
+    "education": [],
+    "experience": [],
+    "skills": [],
+    "certifications": [],
+    "languages": [],
+    "keyword_recommendations": [
+      "DevSecOps"
+    ],
+    "suggested_titles": [
+      "Security Engineer",
+      "Penetration Tester"
+    ]
+  },
+  "job_posts_json": [
+    {
+      "title": "Data Engineer Azure (m/w/d)",
+      "company": null,
+      "location": "Karlsruhe",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/nes-global-deutschland-gmbh-nes-fircroft/data-engineer-azure-karlsruhe-69562",
+      "apply_type": "External"
+    },
+    {
+      "title": "Platform Engineer Azure (m/w/d)",
+      "company": null,
+      "location": "Karlsruhe",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/nes-global-deutschland-gmbh-nes-fircroft/platform-engineer-azure-karlsruhe-209727",
+      "apply_type": "External"
+    },
+    {
+      "title": "Werkstudent (m/w/d) Marketing",
+      "company": null,
+      "location": "Frankenthal",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/univativ-gmbh/werkstudent-marketing-frankenthal-486713",
+      "apply_type": "External"
+    },
+    {
+      "title": "Trainee UX/UI Designer (m/w/d)",
+      "company": null,
+      "location": "Munich",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/digitale-leute-school-dl-education/trainee-ux-ui-designer-munich-483669",
+      "apply_type": "External"
+    },
+    {
+      "title": "Trainee UX/UI Designer (m/w/d)",
+      "company": null,
+      "location": "Berlin",
+      "salary_estimate": null,
+      "job_url": "https://www.arbeitnow.com/jobs/companies/digitale-leute-school-dl-education/trainee-ux-ui-designer-berlin-369214",
+      "apply_type": "External"
+    }
+  ],
+  "application_report_json": {
+    "total_jobs": 5,
+    "applied_count": 0,
+    "failed_count": 5,
+    "success_rate": 0.0,
+    "error_logs": [
+      "Automation not implemented in demo"
+    ]
   },
   "ui_components": {
     "ui_path": "ui/generated"
   },
-  "applications": [],
-  "tracking": {
-    "applications": [],
-    "history": []
-  },
-  "optimization": {
-    "recommendations": []
-  },
   "metadata": {
-    "pipeline_id": "2eb3ac2e-6c30-4c59-a680-45a2a96cbe8f",
-    "timestamp": "2025-09-10T07:40:19.980456",
+    "pipeline_id": "bee01af3-a9ef-4be9-afe4-c68fc5ea870e",
+    "timestamp": "2025-09-10T08:38:18.434964",
     "logs": [],
     "errors": []
   }
